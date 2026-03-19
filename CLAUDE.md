@@ -17,6 +17,16 @@
 - Package manager: `pnpm`
 - Run tests: `npx jest` (not `pnpm test`, which doesn't support `--testPathPatterns`)
 
+## Frontend Visual Review
+
+After implementing any frontend component or UI change:
+
+1. Open `designSpecs/electricity-dashboard-mockup.html` in Playwright and screenshot it
+2. Start the dev server (`pnpm dev`) and open `localhost` in Playwright and screenshot it
+3. Compare both screenshots side-by-side and flag any visual discrepancies before marking the ticket done
+
+Design source of truth: `designSpecs/electricity-dashboard-mockup.html`
+
 ## Plans
 
 - At the end of each plan give me a list of unresolved questions and ask them before asking for plan review. Make the questions extremely concise, sacrifice grammar for the sake of concision.
