@@ -19,7 +19,8 @@ describe('geocoding', () => {
     const result = await geocoding('SW1A 1AA')
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'https://api.postcodes.io/postcodes/SW1A%201AA'
+      'https://api.postcodes.io/postcodes/SW1A%201AA',
+      undefined,
     )
     expect(result).toEqual({ lat: 51.501, lon: -0.142 })
   })
