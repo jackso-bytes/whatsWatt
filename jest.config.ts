@@ -1,1 +1,1 @@
-// Replaced by jest.config.js
+// deleted — use jest.config.js
