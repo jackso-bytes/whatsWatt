@@ -18,7 +18,7 @@ Only pick an issue whose epic blockers are all done. \
 4. For frontend components: open designSpecs/electricity-dashboard-mockup.html in Playwright and screenshot it, start the dev server and screenshot localhost, compare both and fix any visual drift before proceeding. \
 5. Run 'pnpm exec eslint .' and 'npx jest --config jest.config.cjs' and confirm BOTH pass with zero errors before continuing. Fix any failures before opening a PR — do not open a PR with failing lint or tests. \
 6. Make small commits following conventional commits. As you go, tick off acceptance criteria in the GitHub issue AND in the PR body. \
-7. Push the branch, open a PR targeting dev, move the issue to 'In Review' on the board. \
+7. Push the branch, open a PR targeting dev using 'gh pr create' with the body passed inline via --body flag or heredoc — never write the PR body to a file and commit it. Move the issue to 'In Review' on the board. \
 8. Check whether any other open issues are CONCRETELY blocked right now by this PR being unmerged — meaning they directly import from, or require as a runtime dependency, the specific files just written. \
 Only output <needs-review>PR #NUMBER ready for QA — blocking N issues</needs-review> if at least one other issue cannot even be started without this PR merged. \
 If nothing is concretely blocked, do NOT output needs-review — just continue to the next iteration. \
