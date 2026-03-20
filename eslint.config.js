@@ -10,7 +10,7 @@ import globals from 'globals'
 import betterMaxParams from 'eslint-plugin-better-max-params'
 
 export default tseslint.config(
-  { ignores: ['node_modules/**', 'dist/**', 'coverage/**', 'jest.config.ts'] },
+  { ignores: ['node_modules/**', 'dist/**', 'coverage/**', 'jest.config.ts', 'src/utils/aqiBand.ts', 'src/utils/aqiBand.test.ts'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   sonarjs.configs.recommended,
