@@ -18,6 +18,8 @@ export default tseslint.config(
       'jest.config.ts',
       'src/utils/formatPostcode.ts',
       'src/utils/formatPostcode.test.ts',
+      'src/utils/lcoeWeightedAvg.ts',
+      'src/utils/lcoeWeightedAvg.test.ts',
     ],
   },
   js.configs.recommended,
