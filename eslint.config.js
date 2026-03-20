@@ -34,6 +34,10 @@ export default tseslint.config(
     },
     languageOptions: {
       globals: globals.browser,
+      parserOptions: {
+        project: ['./tsconfig.app.json', './tsconfig.test.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -42,6 +46,7 @@ export default tseslint.config(
       'better-max-params/better-max-params': ['error', { func: 2, constructor: 10 }],
       'max-lines-per-function': ['error', { max: 50, skipBlankLines: true }],
       'max-lines': ['error', { max: 250, skipBlankLines: true }],
+      '@typescript-eslint/no-floating-promises': 'error',
       'no-magic-numbers': [
         'error',
         {
