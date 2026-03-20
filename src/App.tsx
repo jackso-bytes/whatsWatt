@@ -4,6 +4,7 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 
+// eslint-disable-next-line max-lines-per-function -- temporary Vite boilerplate, replaced in issue #33
 function App() {
   const [count, setCount] = useState(0)
 
