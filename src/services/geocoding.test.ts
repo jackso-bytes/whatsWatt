@@ -32,4 +32,10 @@ describe('geocoding', () => {
 
     await expect(geocoding('INVALID')).rejects.toThrow('404')
   })
+
+  it('throws a network error when fetch rejects', async () => {
+    mockFetch.mockRejectedValueOnce(new TypeError('Failed to fetch'))
+
+    await expect(geocoding('SW1A 1AA')).rejects.toThrow('Network error')
+  })
 })
