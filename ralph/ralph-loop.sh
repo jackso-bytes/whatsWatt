@@ -18,7 +18,10 @@ Only pick an issue whose epic blockers are all done. \
 4. For frontend components: open designSpecs/electricity-dashboard-mockup.html in Playwright and screenshot it, start the dev server and screenshot localhost, compare both and fix any visual drift before proceeding. \
 5. Run pnpm lint and npx vitest run to confirm all checks pass. \
 6. Make small commits following conventional commits. As you go, tick off acceptance criteria in the GitHub issue AND in the PR body. \
-7. Push the branch, open a PR targeting dev, move the issue to 'In Review' on the board, then output <needs-review>PR #NUMBER ready for QA</needs-review> and stop. \
+7. Push the branch, open a PR targeting dev, move the issue to 'In Review' on the board. \
+8. Check whether any other open issues are blocked by this PR being unmerged (i.e. they import from, depend on, or require the code just written). \
+If yes, output <needs-review>PR #NUMBER ready for QA — blocking N issues</needs-review> and stop. \
+If no, continue without pausing. \
 ONLY WORK ON A SINGLE ISSUE PER ITERATION. \
 If the PRD is fully complete or the running app visually matches electricity-dashboard-mockup.html in all respects, output <promise>COMPLETE</promise>.")
 
