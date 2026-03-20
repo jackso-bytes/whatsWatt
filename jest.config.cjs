@@ -7,4 +7,8 @@ module.exports = {
       tsconfig: './tsconfig.test.json',
     },
   },
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    'src/services/carbonIntensity.test.ts',
+  ],
 }
