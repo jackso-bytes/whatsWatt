@@ -10,7 +10,7 @@ import globals from 'globals'
 import betterMaxParams from 'eslint-plugin-better-max-params'
 
 export default tseslint.config(
-  { ignores: ['node_modules/**', 'dist/**', 'coverage/**'] },
+  { ignores: ['node_modules/**', 'dist/**', 'coverage/**', 'jest.config.ts'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   sonarjs.configs.recommended,
@@ -45,7 +45,11 @@ export default tseslint.config(
     },
   },
   {
-    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/e2e/**'],
+    files: ['**/*.cjs'],
+    languageOptions: { globals: globals.node },
+  },
+  {
+    files: ['**/e2e/**', '**/*.e2e.{ts,tsx}'],
     ...playwright.configs['flat/recommended'],
   },
 )
