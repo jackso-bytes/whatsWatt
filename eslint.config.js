@@ -1,39 +1,51 @@
 import js from '@eslint/js'
-import globals from 'globals'
+import tseslint from 'typescript-eslint'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
 import sonarjs from 'eslint-plugin-sonarjs'
 import unicorn from 'eslint-plugin-unicorn'
 import security from 'eslint-plugin-security'
+import playwright from 'eslint-plugin-playwright'
+import globals from 'globals'
+import betterMaxParams from 'eslint-plugin-better-max-params'
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules', 'build', 'coverage'] },
+  { ignores: ['node_modules/**', 'dist/**', 'coverage/**'] },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  sonarjs.configs.recommended,
+  unicorn.configs.recommended,
+  security.configs.recommended,
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      sonarjs.configs.recommended,
-      security.configs.recommended,
-    ],
     files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-    },
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      unicorn,
+      'better-max-params': betterMaxParams,
+    },
+    languageOptions: {
+      globals: globals.browser,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      'unicorn/prevent-abbreviations': 'off',
-      'unicorn/no-null': 'off',
-      'unicorn/filename-case': 'off',
-      'unicorn/prefer-module': 'off',
-      'unicorn/no-array-reduce': 'off',
+      'unicorn/filename-case': ['error', { cases: { kebabCase: true, pascalCase: true } }],
+      'better-max-params/better-max-params': ['error', { func: 2, constructor: 10 }],
+      'max-lines-per-function': ['error', { max: 50, skipBlankLines: true }],
+      'max-lines': ['error', { max: 250, skipBlankLines: true }],
+      'no-magic-numbers': [
+        'error',
+        {
+          detectObjects: false,
+          enforceConst: true,
+          ignore: [0, 1, -1, 2],
+          ignoreArrayIndexes: true,
+        },
+      ],
     },
+  },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/e2e/**'],
+    ...playwright.configs['flat/recommended'],
   },
 )
