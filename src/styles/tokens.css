@@ -1,0 +1,133 @@
+/* ── Ocean Depths Design Tokens ─────────────────────────────────────────────
+   Tailwind v4 @theme block — creates CSS custom properties on :root
+   AND generates Tailwind utility classes (bg-brand, text-primary, etc.)
+   ──────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* ── Ocean Depths raw palette ─────────────────────────────────────────── */
+  --color-ocean-deep-navy: #1a2332;
+  --color-ocean-teal: #2d8b8b;
+  --color-ocean-teal-light: #2f9960;
+  --color-ocean-teal-dim: #1a5252;
+  --color-ocean-seafoam: #3aad63;
+  --color-ocean-cream: #f1faee;
+
+  /* ── Dark surface scale — deep ocean floor ────────────────────────────── */
+  --color-bg: hsl(216, 32%, 9%);
+  --color-surface: hsl(216, 28%, 13%);
+  --color-surface-raised: hsl(216, 26%, 17%);
+  --color-surface-hover: hsl(216, 24%, 21%);
+  --color-border: hsl(216, 22%, 22%);
+  --color-border-strong: hsl(216, 22%, 32%);
+
+  /* ── Text scale ───────────────────────────────────────────────────────── */
+  --color-text-primary: hsl(175, 40%, 96%);
+  --color-text-secondary: hsl(190, 18%, 62%);
+  --color-text-disabled: hsl(210, 14%, 40%);
+
+  /* ── Brand: Ocean Teal ────────────────────────────────────────────────── */
+  --color-brand: #2d8b8b;
+  --color-brand-light: #3aad63;
+  --color-brand-dim: #1a5252;
+  --color-brand-glow: rgba(45, 139, 139, 0.25);
+
+  /* ── Carbon intensity states ──────────────────────────────────────────── */
+  --color-intensity-low: #3aad63;
+  --color-intensity-low-bg: rgba(58, 173, 99, 0.14);
+  --color-intensity-low-border: rgba(58, 173, 99, 0.3);
+  --color-intensity-moderate: #f0a500;
+  --color-intensity-moderate-bg: rgba(240, 165, 0, 0.11);
+  --color-intensity-moderate-border: rgba(240, 165, 0, 0.28);
+  --color-intensity-high: #e05c3e;
+  --color-intensity-high-bg: rgba(183, 71, 42, 0.14);
+  --color-intensity-high-border: rgba(224, 92, 62, 0.28);
+
+  /* ── Fuel colours — ocean-aware dark palette ──────────────────────────── */
+  --color-fuel-wind: #3aad63;
+  --color-fuel-solar: #f0a500;
+  --color-fuel-nuclear: #a97fd4;
+  --color-fuel-gas: #8899aa;
+  --color-fuel-biomass: #5bc9a8;
+  --color-fuel-hydro: #2f9960;
+  --color-fuel-imports: #6a7fa0;
+  --color-fuel-coal: #4a5060;
+  --color-fuel-other: #363f52;
+
+  /* ── AQI colours (European scale 1–5) ────────────────────────────────── */
+  --color-aqi-good: #3aad63;
+  --color-aqi-good-bg: rgba(58, 173, 99, 0.12);
+  --color-aqi-good-border: rgba(58, 173, 99, 0.28);
+  --color-aqi-fair: #a3c93a;
+  --color-aqi-fair-bg: rgba(163, 201, 58, 0.12);
+  --color-aqi-fair-border: rgba(163, 201, 58, 0.28);
+  --color-aqi-moderate: #f0a500;
+  --color-aqi-moderate-bg: rgba(240, 165, 0, 0.11);
+  --color-aqi-poor: #e05c3e;
+  --color-aqi-poor-bg: rgba(224, 92, 62, 0.12);
+  --color-aqi-very-poor: #c0392b;
+  --color-aqi-very-poor-bg: rgba(192, 57, 43, 0.12);
+
+  /* ── Spacing ──────────────────────────────────────────────────────────── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+  --spacing-2xl: 64px;
+
+  /* ── Border radius ────────────────────────────────────────────────────── */
+  --radius-card: 18px;
+  --radius-input: 14px;
+  --radius-button: 10px;
+  --radius-pill: 999px;
+
+  /* ── Font families ────────────────────────────────────────────────────── */
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* ── Font sizes ───────────────────────────────────────────────────────── */
+  --text-xs: 0.6875rem;
+  --text-sm: 0.8125rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.875rem;
+  --text-hero: 5.5rem;
+
+  /* ── Transition durations ─────────────────────────────────────────────── */
+  --duration-fast: 120ms;
+  --duration-default: 240ms;
+  --duration-slow: 400ms;
+
+  /* ── Easing functions ─────────────────────────────────────────────────── */
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Prototype-name aliases ─────────────────────────────────────────────────
+   Retained for dynamic inline-style values that reference the original
+   CSS custom property names used in the design spec prototype.
+   ──────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Spacing (prototype uses --space-*, Tailwind v4 prefers --spacing-*) */
+  --space-xs: var(--spacing-xs);
+  --space-sm: var(--spacing-sm);
+  --space-md: var(--spacing-md);
+  --space-lg: var(--spacing-lg);
+  --space-xl: var(--spacing-xl);
+  --space-2xl: var(--spacing-2xl);
+
+  /* Duration (prototype uses --dur-*, Tailwind v4 prefers --duration-*) */
+  --dur-fast: var(--duration-fast);
+  --dur-default: var(--duration-default);
+  --dur-slow: var(--duration-slow);
+
+  /* Ocean palette (prototype uses --ocean-*, also exposed as --color-ocean-*) */
+  --ocean-deep-navy: var(--color-ocean-deep-navy);
+  --ocean-teal: var(--color-ocean-teal);
+  --ocean-teal-light: var(--color-ocean-teal-light);
+  --ocean-teal-dim: var(--color-ocean-teal-dim);
+  --ocean-seafoam: var(--color-ocean-seafoam);
+  --ocean-cream: var(--color-ocean-cream);
+}
