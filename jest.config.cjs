@@ -7,5 +7,7 @@ module.exports = {
       tsconfig: './tsconfig.test.json',
     },
   },
-  testPathIgnorePatterns: ['/node_modules/', String.raw`aqiBand\.test\.ts`],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+  ],
 }
