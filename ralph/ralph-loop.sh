@@ -13,7 +13,7 @@ for ((i=1; i<=$1; i++)); do
 1. Check the GitHub project board at https://github.com/users/jackso-bytes/projects/2. \
 Find the highest-priority unstarted issue — use your judgement on priority, do not just pick the first one. \
 Only pick an issue whose epic blockers are all done. \
-2. Create a new branch from dev for that issue using conventional commits naming. Move the issue to 'In Progress' on the board. \
+2. Create a new branch from dev for that issue using conventional commits naming. \
 3. Implement the issue following its plan and acceptance criteria. Use the tdd skill as described in CLAUDE.md: red-green-refactor on every implementation task. \
 4. For frontend components: open designSpecs/electricity-dashboard-mockup.html in Playwright and screenshot it, start the dev server and screenshot localhost, compare both and fix any visual drift before proceeding. \
 5. Run 'pnpm exec eslint .' and 'npx jest --config jest.config.cjs' and confirm BOTH pass with zero errors before continuing. Fix any failures before opening a PR — do not open a PR with failing lint or tests. NEVER add files to the eslint ignores list to silence errors — and NEVER use eslint-disable comments to suppress errors — fix the root cause instead. NEVER leave camelCase stub files alongside kebab-case canonical files. \
