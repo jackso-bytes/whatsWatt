@@ -9,6 +9,5 @@ module.exports = {
   },
   testPathIgnorePatterns: [
     '/node_modules/',
-    'src/services/carbonIntensity.test.ts',
   ],
 }
