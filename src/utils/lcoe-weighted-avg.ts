@@ -3,7 +3,7 @@ export function lcoeWeightedAvg(
   lcoeMap: Record<string, { low: number; [key: string]: unknown }>,
 ): number {
   const matched = generationMix.filter(
-    ({ fuel }) => Object.hasOwn(lcoeMap, fuel) && lcoeMap[fuel].low > 0,
+    ({ fuel }) => lcoeMap[fuel] !== undefined && lcoeMap[fuel].low > 0,
   )
   const totalPerc = matched.reduce((sum, { perc }) => sum + perc, 0)
   if (totalPerc === 0) return 0

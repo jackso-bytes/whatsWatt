@@ -1,5 +1,7 @@
 import { lcoeWeightedAvg } from './lcoe-weighted-avg'
 
+const PROTOTYPE_MIX_EXPECTED_LCOE = 97
+
 const LCOE_MAP = {
   solar:   { label: 'Solar',   low: 60,  colour: '#f0a500' },
   wind:    { label: 'Wind',    low: 83,  colour: '#3aad63' },
@@ -9,8 +11,6 @@ const LCOE_MAP = {
   hydro:   { label: 'Hydro',   low: 0,   colour: '#2f9960' },
   imports: { label: 'Imports', low: 0,   colour: '#6a7fa0' },
 }
-
-const EXPECTED_UK_MIX_LCOE = 97
 
 describe('lcoeWeightedAvg', () => {
   it('returns the LCOE low for a single-fuel mix', () => {
@@ -30,7 +30,7 @@ describe('lcoeWeightedAvg', () => {
       { fuel: 'hydro',   perc: 5  },
       { fuel: 'imports', perc: 3  },
     ]
-    expect(lcoeWeightedAvg(mix, LCOE_MAP)).toBeCloseTo(EXPECTED_UK_MIX_LCOE, 0)
+    expect(lcoeWeightedAvg(mix, LCOE_MAP)).toBeCloseTo(PROTOTYPE_MIX_EXPECTED_LCOE, 0)
   })
 
   it('returns 0 when no fuels match the LCOE map', () => {

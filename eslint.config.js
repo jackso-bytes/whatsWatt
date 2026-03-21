@@ -16,8 +16,6 @@ export default tseslint.config(
       'dist/**',
       'coverage/**',
       'jest.config.ts',
-      'src/utils/formatPostcode.ts',
-      'src/utils/formatPostcode.test.ts',
     ],
   },
   js.configs.recommended,
