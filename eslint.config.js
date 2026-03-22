@@ -27,10 +27,10 @@ export default tseslint.config(
     },
     languageOptions: {
       globals: globals.browser,
-    },
-    parserOptions: {
-      project: ['./tsconfig.app.json', './tsconfig.test.json'],
-      tsconfigRootDir: import.meta.dirname,
+      parserOptions: {
+        project: ['./tsconfig.app.json', './tsconfig.test.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
