@@ -147,7 +147,7 @@ export function usePostcodeData(postcode: string): PostcodeDataState {
 
     dispatch({ type: 'loading' })
 
-    Promise.allSettled([fetchCi(context), fetchOctopus(context), fetchAq(context)]).then(() => {
+    void Promise.allSettled([fetchCi(context), fetchOctopus(context), fetchAq(context)]).then(() => {
       if (!ignore.current) dispatch({ type: 'success' })
     })
 
