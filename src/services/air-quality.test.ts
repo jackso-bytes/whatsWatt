@@ -30,6 +30,13 @@ describe('airQuality', () => {
     )
   })
 
+  it('throws when postcode is invalid (geocoding rejects)', async () => {
+    mockGeocoding.mockRejectedValueOnce(new Error('404'))
+
+    await expect(airQuality('ZZZZZ')).rejects.toThrow('404')
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
   it('throws on non-2xx from Open-Meteo', async () => {
     mockGeocoding.mockResolvedValueOnce({ lat: 52.628, lon: 1.299 })
     mockFetch.mockResolvedValueOnce({
