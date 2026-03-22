@@ -10,6 +10,7 @@ for ((i=1; i<=$1; i++)); do
   echo "Iteration $i"
   echo "--------------------------------"
   result=$(claude -p "\
+0. Read designSpecs/whats-watt-PRD.md in full — it is the source of truth for tech stack, design decisions, and acceptance criteria. Adhere to it throughout. \
 1. Check the GitHub project board at https://github.com/users/jackso-bytes/projects/2. \
 Find the highest-priority unstarted issue — use your judgement on priority, do not just pick the first one. \
 Only pick an issue whose epic blockers are all done. \
