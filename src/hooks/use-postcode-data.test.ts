@@ -97,6 +97,47 @@ it('sets intensityError and still resolves others when carbonIntensity rejects',
   expect(result.current.aqi?.index).toBe(AQ_RESULT.european_aqi)
 })
 
+it('sets unitRateError and still resolves others when octopus rejects', async () => {
+  mockCarbonIntensity.mockResolvedValue(CI_RESULT)
+  mockOctopus.mockRejectedValue(new Error('Octopus failed'))
+  mockAirQuality.mockResolvedValue(AQ_RESULT)
+
+  const { result } = renderHook(() => usePostcodeData('NR1'))
+  await waitFor(() => { expect(result.current.status).toBe('success') })
+
+  expect(result.current.unitRateError).toBeInstanceOf(Error)
+  expect(result.current.unitRate).toBeUndefined()
+  expect(result.current.intensity?.actual).toBe(CI_RESULT.actual)
+  expect(result.current.aqi?.index).toBe(AQ_RESULT.european_aqi)
+})
+
+it('sets aqiError and still resolves others when airQuality rejects', async () => {
+  mockCarbonIntensity.mockResolvedValue(CI_RESULT)
+  mockOctopus.mockResolvedValue(OCTOPUS_RESULT)
+  mockAirQuality.mockRejectedValue(new Error('AQI failed'))
+
+  const { result } = renderHook(() => usePostcodeData('NR1'))
+  await waitFor(() => { expect(result.current.status).toBe('success') })
+
+  expect(result.current.aqiError).toBeInstanceOf(Error)
+  expect(result.current.aqi).toBeUndefined()
+  expect(result.current.intensity?.actual).toBe(CI_RESULT.actual)
+  expect(result.current.unitRate).toEqual(OCTOPUS_RESULT)
+})
+
+it('shows the one success when two services fail', async () => {
+  mockCarbonIntensity.mockRejectedValue(new Error('CI failed'))
+  mockOctopus.mockRejectedValue(new Error('Octopus failed'))
+  mockAirQuality.mockResolvedValue(AQ_RESULT)
+
+  const { result } = renderHook(() => usePostcodeData('NR1'))
+  await waitFor(() => { expect(result.current.status).toBe('success') })
+
+  expect(result.current.intensityError).toBeInstanceOf(Error)
+  expect(result.current.unitRateError).toBeInstanceOf(Error)
+  expect(result.current.aqi?.index).toBe(AQ_RESULT.european_aqi)
+})
+
 it('ignores stale results when postcode changes mid-flight', async () => {
   let resolveFirst!: (value: typeof CI_RESULT) => void
   const firstCall = new Promise<typeof CI_RESULT>((resolve) => { resolveFirst = resolve })
