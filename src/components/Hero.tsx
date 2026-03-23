@@ -40,6 +40,7 @@ function PostcodeForm({ onSubmit }: Readonly<HeroProperties>) {
           placeholder="e.g. SW1A 1AA"
           maxLength={8}
           aria-label="UK postcode"
+          name="postcode"
           autoComplete="postal-code"
           spellCheck={false}
         />
