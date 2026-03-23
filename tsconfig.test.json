@@ -6,6 +6,7 @@
     "verbatimModuleSyntax": false,
     "allowImportingTsExtensions": false,
     "noEmit": false,
-    "types": ["jest", "node"]
-  }
+    "types": ["jest", "node", "@testing-library/jest-dom"]
+  },
+  "include": ["src", "jest.setup.ts"]
 }
