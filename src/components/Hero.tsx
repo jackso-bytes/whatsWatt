@@ -44,7 +44,7 @@ function PostcodeForm({ onSubmit }: Readonly<HeroProperties>) {
           autoComplete="postal-code"
           spellCheck={false}
         />
-        <Primitive.button type="submit" className="flex-shrink-0 bg-[#3aad63] text-white rounded-[var(--radius-button)] text-sm font-semibold px-4 py-2 hover:bg-[#52c278] flex items-center gap-1 whitespace-nowrap cursor-pointer" aria-label="Get electricity data for postcode">
+        <Primitive.button type="submit" className="flex-shrink-0 bg-[#3aad63] text-white rounded-[var(--radius-button)] text-sm font-semibold px-4 py-2 hover:bg-[#52c278] flex items-center gap-1 whitespace-nowrap cursor-pointer">
           {ARROW_ICON}
           Look up
         </Primitive.button>
