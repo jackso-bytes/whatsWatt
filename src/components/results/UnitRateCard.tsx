@@ -1,5 +1,3 @@
-import type { CSSProperties } from 'react'
-
 interface UnitRateData {
   readonly value: number
   readonly tariff: string
@@ -9,65 +7,32 @@ interface Properties {
   readonly unitRate: UnitRateData
 }
 
-const CARD_STYLE: CSSProperties = {
-  borderRadius: 'var(--radius-card)',
-  padding: 'var(--space-lg)',
-  background: 'var(--color-card-bg)',
-  border: '1px solid var(--color-border)',
-  boxShadow: '0 2px 24px rgba(0,0,0,0.32)',
-}
-
-const TOP_STYLE: CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  marginBottom: 'var(--space-md)',
-}
-
-const TITLE_STYLE: CSSProperties = {
-  fontSize: 'var(--text-base)',
-  fontWeight: 600,
-  color: 'var(--color-text-primary)',
-}
-
-const BADGE_STYLE: CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 5,
-  padding: '4px 12px',
-  borderRadius: 'var(--radius-pill)',
-  background: 'var(--color-brand)',
-  color: '#fff',
-  fontSize: 'var(--text-xs)',
-  fontWeight: 700,
-  letterSpacing: '0.06em',
-  textTransform: 'uppercase',
-}
-
-const NUMBER_BLOCK: CSSProperties = {
-  display: 'flex',
-  alignItems: 'baseline',
-  gap: 'var(--space-sm)',
-}
-
 export function UnitRateCard({ unitRate }: Readonly<Properties>) {
   const { value, tariff } = unitRate
 
   return (
-    <article style={CARD_STYLE} aria-labelledby="unit-rate-heading">
-      <div style={TOP_STYLE}>
-        <span style={TITLE_STYLE} id="unit-rate-heading">Unit Rate</span>
-        <span style={BADGE_STYLE} aria-label={`Tariff: ${tariff}`}>{tariff}</span>
+    <article
+      className="rounded-card p-lg bg-surface-raised border border-border shadow-[0_2px_24px_rgba(0,0,0,0.32)]"
+      aria-labelledby="unit-rate-heading"
+    >
+      <div className="flex items-center justify-between mb-md">
+        <span className="text-base font-semibold text-text-primary" id="unit-rate-heading">Unit Rate</span>
+        <span
+          className="inline-flex items-center gap-[5px] px-3 py-1 rounded-pill bg-brand text-white text-xs font-bold tracking-[0.06em] uppercase"
+          aria-label={`Tariff: ${tariff}`}
+        >
+          {tariff}
+        </span>
       </div>
 
-      <div style={NUMBER_BLOCK}>
+      <div className="flex items-baseline gap-sm">
         <span
-          style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', fontWeight: 800, lineHeight: 1, color: 'var(--color-brand-light)', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.04em' }}
+          className="font-display text-[3.5rem] font-extrabold leading-none text-brand-light tabular-nums tracking-[-0.04em]"
           aria-label={`${value.toFixed(2)} pence per kilowatt hour`}
         >
           {value.toFixed(2)}
         </span>
-        <span aria-hidden="true" style={{ fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--color-text-secondary)' }}>p/kWh</span>
+        <span aria-hidden="true" className="text-lg font-semibold text-text-secondary">p/kWh</span>
       </div>
     </article>
   )
