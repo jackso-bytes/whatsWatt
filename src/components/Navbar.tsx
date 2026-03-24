@@ -5,7 +5,7 @@ function NavLogo() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      style={{ width: '28px', height: '28px', flexShrink: 0 }}
+      className="w-7 h-7 shrink-0"
     >
       <circle cx="14" cy="14" r="14" fill="rgba(45,139,139,0.2)" />
       <path
@@ -37,35 +37,21 @@ export function Navbar() {
     <nav
       role="navigation"
       aria-label="Main navigation"
-      style={{
-        width: '100%',
-        height: '60px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 var(--space-md)',
-        borderBottom: '1px solid var(--color-border)',
-        background: 'rgba(13,18,32,0.82)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-      }}
+      className="w-full h-[60px] flex items-center justify-between px-md border-b border-border bg-[rgba(13,18,32,0.82)] backdrop-blur-lg sticky top-0 z-[100]"
     >
       <a
         href="#"
         aria-label="What's Watt home"
-        style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', textDecoration: 'none' }}
+        className="flex items-center gap-sm no-underline"
       >
         <NavLogo />
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', color: 'var(--color-text-primary)', letterSpacing: '-0.02em' }}>
-          What&apos;s<span style={{ color: 'var(--color-brand-light)' }}>Watt</span>
+        <span className="font-display font-bold text-lg text-text-primary tracking-[-0.02em]">
+          What&apos;s<span className="text-brand-light">Watt</span>
         </span>
       </a>
       <a
         href="#"
-        style={{ fontSize: 'var(--text-sm)', fontWeight: 500, color: 'var(--color-text-secondary)', textDecoration: 'none' }}
+        className="text-sm font-medium text-text-secondary no-underline"
       >
         About
       </a>
