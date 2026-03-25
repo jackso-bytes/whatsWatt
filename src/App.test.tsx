@@ -13,10 +13,12 @@ jest.mock('./hooks/use-postcode-data', () => ({
 import { usePostcodeData } from './hooks/use-postcode-data'
 const mockUsePostcodeData = usePostcodeData as jest.MockedFunction<typeof usePostcodeData>
 
-const idle: PostcodeDataState = { status: 'idle' }
-const loading: PostcodeDataState = { status: 'loading' }
+const noop = () => undefined
+const idle: PostcodeDataState = { status: 'idle', refetch: noop }
+const loading: PostcodeDataState = { status: 'loading', refetch: noop }
 const fullSuccess: PostcodeDataState = {
   status: 'success',
+  refetch: noop,
   region: { name: 'East England', gspId: '_P' },
   intensity: { actual: 150, band: 'moderate', updatedAt: '2024-01-01T12:00:00Z' },
   generationMix: [{ fuel: 'wind', perc: 40 }, { fuel: 'gas', perc: 60 }],

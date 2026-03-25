@@ -141,6 +141,7 @@ export function CostBreakdownCard({ generationMix, lcoe }: Properties) {
 
   return (
     <article
+      data-testid="cost-breakdown-card"
       aria-labelledby="cost-break-heading"
       className="rounded-[var(--radius-card)] p-[var(--space-lg)] shadow-[0_2px_24px_rgba(0,0,0,0.32)]"
       style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
