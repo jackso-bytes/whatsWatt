@@ -102,7 +102,7 @@ const MIX_ICON = (
 export function GenerationMixCard({ mix, lcoe, error, onRetry }: Properties) {
   if (error) {
     return (
-      <article style={CARD_STYLE}>
+      <article data-testid="generation-mix-card" style={CARD_STYLE}>
         <p role="alert" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Something went wrong loading generation mix data.</p>
         {onRetry && <button onClick={onRetry} style={{ fontSize: 'var(--text-xs)', color: 'var(--color-brand-light)', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Retry</button>}
       </article>

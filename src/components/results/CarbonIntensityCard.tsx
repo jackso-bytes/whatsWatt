@@ -85,7 +85,7 @@ interface ErrorFallbackProperties { readonly onRetry?: () => void }
 
 function CardErrorFallback({ onRetry }: ErrorFallbackProperties) {
   return (
-    <article aria-labelledby="intensity-heading" className="relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] bg-surface border border-border flex flex-col gap-[var(--space-sm)]">
+    <article data-testid="carbon-intensity-card" aria-labelledby="intensity-heading" className="relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] bg-surface border border-border flex flex-col gap-[var(--space-sm)]">
       <span id="intensity-heading" className="sr-only">Carbon Intensity</span>
       <p role="alert" className="text-sm text-text-secondary">Something went wrong loading carbon intensity data.</p>
       {onRetry && <button onClick={onRetry} className="text-xs text-brand-light underline self-start">Retry</button>}
