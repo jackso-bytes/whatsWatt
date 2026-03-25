@@ -9,7 +9,9 @@ interface AqiData {
 }
 
 interface Properties {
-  readonly aqi: AqiData
+  readonly aqi?: AqiData
+  readonly error?: Error
+  readonly onRetry?: () => void
 }
 
 const LEVEL_ORDER: AqiLevel[] = ['good', 'fair', 'moderate', 'poor', 'very-poor']
@@ -61,7 +63,21 @@ function ScaleBar({ activeIndex }: Readonly<ScaleBarProperties>) {
   )
 }
 
-export function AirQualityCard({ aqi }: Readonly<Properties>) {
+interface ErrorFallbackProperties { readonly onRetry?: () => void }
+
+function CardErrorFallback({ onRetry }: ErrorFallbackProperties) {
+  return (
+    <article className="rounded-card p-lg border border-border shadow-[0_2px_24px_rgba(0,0,0,0.32)]" style={{ background: 'var(--color-surface)' }} aria-labelledby="aqi-heading">
+      <span id="aqi-heading" className="sr-only">Air Quality</span>
+      <p role="alert" className="text-sm text-text-secondary">Something went wrong loading air quality data.</p>
+      {onRetry && <button onClick={onRetry} className="text-xs text-brand-light underline self-start bg-transparent border-none cursor-pointer p-0">Retry</button>}
+    </article>
+  )
+}
+
+export function AirQualityCard({ aqi, error, onRetry }: Readonly<Properties>) {
+  if (error) return <CardErrorFallback onRetry={onRetry} />
+  if (!aqi) return
   const { level, pm25, no2, o3 } = aqi
   const displayIndex = levelToIndex(level)
   const label = LEVEL_LABELS[level]

@@ -147,6 +147,17 @@ it('writes postcode to localStorage on successful lookup', async () => {
   setItemSpy.mockRestore()
 })
 
+it('exposes a refetch function that re-runs all fetches', async () => {
+  setupAllMocksOk()
+  const { result } = renderHook(() => usePostcodeData('NR1'))
+  await waitFor(() => { expect(result.current.status).toBe('success') })
+  expect(typeof result.current.refetch).toBe('function')
+
+  // refetch triggers a second round of fetches
+  result.current.refetch()
+  await waitFor(() => { expect(mockCarbonIntensity).toHaveBeenCalledTimes(2) })
+})
+
 it('ignores stale results when postcode changes mid-flight', async () => {
   let resolveFirst!: (value: typeof CI_RESULT) => void
   const firstCall = new Promise<typeof CI_RESULT>((resolve) => { resolveFirst = resolve })

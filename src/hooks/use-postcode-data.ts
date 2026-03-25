@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react'
+import { useReducer, useEffect, useCallback, useState } from 'react'
 import { carbonIntensity } from '../services/carbon-intensity'
 import { octopus } from '../services/octopus'
 import { airQuality } from '../services/air-quality'
@@ -6,6 +6,7 @@ import { aqiBand, type AqiLevel } from '../utils/aqi-band'
 
 export interface PostcodeDataState {
   status: 'idle' | 'loading' | 'success'
+  refetch: () => void
   region?: { name: string; gspId: string }
   intensity?: { actual: number; band: 'low' | 'moderate' | 'high'; updatedAt: string }
   generationMix?: Array<{ fuel: string; perc: number }>
@@ -32,7 +33,7 @@ interface FetchContext {
   ignore: { current: boolean }
 }
 
-const IDLE: PostcodeDataState = { status: 'idle' }
+const IDLE_STATE: Omit<PostcodeDataState, 'refetch'> = { status: 'idle' }
 
 function toError(value: unknown): Error {
   return value instanceof Error ? value : new Error(String(value))
@@ -43,7 +44,9 @@ function extractGspId(tariff: string): string {
   return `_${lastSegment}`
 }
 
-function reducer(state: PostcodeDataState, action: Action): PostcodeDataState {
+type ReducerState = Omit<PostcodeDataState, 'refetch'>
+
+function reducer(state: ReducerState, action: Action): ReducerState {
   switch (action.type) {
     case 'loading': {
       return { status: 'loading' }
@@ -137,7 +140,9 @@ function fetchAq({ postcode, dispatch, ignore }: FetchContext): Promise<void> {
 }
 
 export function usePostcodeData(postcode: string): PostcodeDataState {
-  const [state, dispatch] = useReducer(reducer, IDLE)
+  const [state, dispatch] = useReducer(reducer, IDLE_STATE)
+  const [retryCount, setRetryCount] = useState(0)
+  const refetch = useCallback(() => { setRetryCount((c) => c + 1) }, [])
 
   useEffect(() => {
     if (!postcode) return
@@ -157,8 +162,8 @@ export function usePostcodeData(postcode: string): PostcodeDataState {
     return () => {
       ignore.current = true
     }
-  }, [postcode])
+  }, [postcode, retryCount])
 
-  if (!postcode) return IDLE
-  return state
+  if (!postcode) return { ...IDLE_STATE, refetch }
+  return { ...state, refetch }
 }

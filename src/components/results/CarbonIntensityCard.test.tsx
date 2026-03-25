@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { CarbonIntensityCard } from './CarbonIntensityCard'
 
 const baseIntensity = {
@@ -10,7 +10,7 @@ const baseIntensity = {
   updatedAt: '2025-01-15T14:30:00Z',
 }
 
-describe('CarbonIntensityCard', () => {
+describe('CarbonIntensityCard — data display', () => {
   it('renders the actual value as the hero number', () => {
     render(<CarbonIntensityCard intensity={baseIntensity} />)
     expect(screen.getByLabelText('142 grams CO2 per kilowatt-hour')).toBeInTheDocument()
@@ -53,8 +53,26 @@ describe('CarbonIntensityCard', () => {
 
   it('renders updated timestamp from ISO string', () => {
     render(<CarbonIntensityCard intensity={baseIntensity} />)
-    // 2025-01-15T14:30:00Z → "Updated 14:30" in Europe/London (UTC in winter)
     const timestamp = document.querySelector('.intensity-timestamp')
     expect(timestamp?.textContent).toMatch(/Updated \d{2}:\d{2}/)
+  })
+})
+
+describe('CarbonIntensityCard — error state', () => {
+  it('shows an alert when error prop is set', () => {
+    render(<CarbonIntensityCard error={new Error('fetch failed')} />)
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+  })
+
+  it('shows a retry button when error and onRetry are set', () => {
+    render(<CarbonIntensityCard error={new Error('oops')} onRetry={jest.fn()} />)
+    expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument()
+  })
+
+  it('calls onRetry when retry button is clicked', () => {
+    const onRetry = jest.fn()
+    render(<CarbonIntensityCard error={new Error('oops')} onRetry={onRetry} />)
+    fireEvent.click(screen.getByRole('button', { name: /retry/i }))
+    expect(onRetry).toHaveBeenCalledTimes(1)
   })
 })

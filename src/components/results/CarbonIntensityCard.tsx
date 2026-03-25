@@ -8,7 +8,9 @@ interface Intensity {
 }
 
 interface Properties {
-  readonly intensity: Intensity
+  readonly intensity?: Intensity
+  readonly error?: Error
+  readonly onRetry?: () => void
 }
 
 function bandLabel(band: Intensity['band']): string {
@@ -79,7 +81,22 @@ function ScaleBar({ actual, colorToken }: ScaleBarProperties) {
   )
 }
 
-export function CarbonIntensityCard({ intensity }: Properties) {
+interface ErrorFallbackProperties { readonly onRetry?: () => void }
+
+function CardErrorFallback({ onRetry }: ErrorFallbackProperties) {
+  return (
+    <article aria-labelledby="intensity-heading" className="relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] bg-surface border border-border flex flex-col gap-[var(--space-sm)]">
+      <span id="intensity-heading" className="sr-only">Carbon Intensity</span>
+      <p role="alert" className="text-sm text-text-secondary">Something went wrong loading carbon intensity data.</p>
+      {onRetry && <button onClick={onRetry} className="text-xs text-brand-light underline self-start">Retry</button>}
+    </article>
+  )
+}
+
+export function CarbonIntensityCard({ intensity, error, onRetry }: Properties) {
+  if (error) return <CardErrorFallback onRetry={onRetry} />
+  if (!intensity) return
+
   const colorToken = `var(--color-intensity-${intensity.band})`
   const bgToken = `var(--color-intensity-${intensity.band}-bg)`
   const borderToken = `var(--color-intensity-${intensity.band}-border)`

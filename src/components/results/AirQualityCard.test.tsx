@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import '@testing-library/jest-dom'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { AirQualityCard } from './AirQualityCard'
 
 const fairAqi = { index: 25, level: 'fair' as const, pm25: 8.3, no2: 12.1, o3: 54.2 }
@@ -38,5 +38,24 @@ describe('AirQualityCard', () => {
     expect(screen.getByText('PM2.5')).toBeInTheDocument()
     expect(screen.getByText('NO₂')).toBeInTheDocument()
     expect(screen.getByText('O₃')).toBeInTheDocument()
+  })
+})
+
+describe('AirQualityCard — error state', () => {
+  it('shows an alert when error prop is set', () => {
+    render(<AirQualityCard error={new Error('fetch failed')} />)
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+  })
+
+  it('shows a retry button when error and onRetry are set', () => {
+    render(<AirQualityCard error={new Error('oops')} onRetry={jest.fn()} />)
+    expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument()
+  })
+
+  it('calls onRetry when retry button is clicked', () => {
+    const onRetry = jest.fn()
+    render(<AirQualityCard error={new Error('oops')} onRetry={onRetry} />)
+    fireEvent.click(screen.getByRole('button', { name: /retry/i }))
+    expect(onRetry).toHaveBeenCalledTimes(1)
   })
 })

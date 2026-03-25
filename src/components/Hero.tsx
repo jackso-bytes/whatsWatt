@@ -26,6 +26,7 @@ function PostcodeForm({ onSubmit }: Readonly<HeroProperties>) {
         const formatted = formatPostcode(value)
         if (!formatted) { setError('Please enter a valid UK postcode'); return }
         setError(undefined)
+        localStorage.setItem('whats-watt:postcode', formatted)
         onSubmit(formatted)
       }}
     >

@@ -48,4 +48,12 @@ describe('Hero', () => {
     fireEvent.change(screen.getByRole('textbox', { name: /uk postcode/i }), { target: { value: 'N' } })
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
+
+  it('saves formatted postcode to localStorage on valid submit', () => {
+    render(<Hero onSubmit={jest.fn()} />)
+    fireEvent.change(screen.getByRole('textbox', { name: /uk postcode/i }), { target: { value: 'nr14aa' } })
+    fireEvent.click(screen.getByRole('button', { name: /get electricity data/i }))
+    expect(localStorage.getItem('whats-watt:postcode')).toBe('NR1 4AA')
+    localStorage.clear()
+  })
 })

@@ -7,7 +7,12 @@ const PERCENT = 100
 
 interface FuelEntry { readonly fuel: string; readonly perc: number }
 interface LcoeEntry { readonly label: string; readonly low: number; readonly high?: number; readonly colour: string }
-interface Properties { readonly mix: FuelEntry[]; readonly lcoe: Record<string, LcoeEntry> }
+interface Properties {
+  readonly mix?: FuelEntry[]
+  readonly lcoe?: Record<string, LcoeEntry>
+  readonly error?: Error
+  readonly onRetry?: () => void
+}
 interface Segment { fuel: string; colour: string; dashArray: string; dashOffset: number }
 
 function fuelLabel(fuel: string, entry: LcoeEntry | undefined): string {
@@ -94,7 +99,16 @@ const MIX_ICON = (
   </svg>
 )
 
-export function GenerationMixCard({ mix, lcoe }: Properties) {
+export function GenerationMixCard({ mix, lcoe, error, onRetry }: Properties) {
+  if (error) {
+    return (
+      <article style={CARD_STYLE}>
+        <p role="alert" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Something went wrong loading generation mix data.</p>
+        {onRetry && <button onClick={onRetry} style={{ fontSize: 'var(--text-xs)', color: 'var(--color-brand-light)', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Retry</button>}
+      </article>
+    )
+  }
+  if (!mix || !lcoe) return
   const sorted = mix.toSorted((a, b) => b.perc - a.perc)
   return (
     <article data-testid="generation-mix-card" style={CARD_STYLE}>

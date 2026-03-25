@@ -4,10 +4,22 @@ interface UnitRateData {
 }
 
 interface Properties {
-  readonly unitRate: UnitRateData
+  readonly unitRate?: UnitRateData
+  readonly error?: Error
+  readonly onRetry?: () => void
 }
 
-export function UnitRateCard({ unitRate }: Readonly<Properties>) {
+export function UnitRateCard({ unitRate, error, onRetry }: Readonly<Properties>) {
+  if (error) {
+    return (
+      <article className="rounded-card p-lg bg-surface-raised border border-border shadow-[0_2px_24px_rgba(0,0,0,0.32)]" aria-labelledby="unit-rate-heading">
+        <span id="unit-rate-heading" className="sr-only">Unit Rate</span>
+        <p role="alert" className="text-sm text-text-secondary">Something went wrong loading unit rate data.</p>
+        {onRetry && <button onClick={onRetry} className="text-xs text-brand-light underline bg-transparent border-none cursor-pointer p-0">Retry</button>}
+      </article>
+    )
+  }
+  if (!unitRate) return
   const { value, tariff } = unitRate
 
   return (
