@@ -12,6 +12,7 @@ export function UnitRateCard({ unitRate }: Readonly<Properties>) {
 
   return (
     <article
+      data-testid="unit-rate-card"
       className="rounded-card p-lg bg-surface-raised border border-border shadow-[0_2px_24px_rgba(0,0,0,0.32)]"
       aria-labelledby="unit-rate-heading"
     >
