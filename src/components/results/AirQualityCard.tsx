@@ -69,6 +69,7 @@ export function AirQualityCard({ aqi }: Readonly<Properties>) {
 
   return (
     <article
+      data-testid="air-quality-card"
       className="rounded-card p-lg border shadow-[0_2px_24px_rgba(0,0,0,0.32)]"
       style={{ background: `var(--color-aqi-${level}-bg)`, borderColor: `var(--color-aqi-${level}-border, var(--color-border))` }}
       aria-labelledby="aqi-heading"

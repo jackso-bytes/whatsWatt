@@ -97,7 +97,7 @@ const MIX_ICON = (
 export function GenerationMixCard({ mix, lcoe }: Properties) {
   const sorted = mix.toSorted((a, b) => b.perc - a.perc)
   return (
-    <article style={CARD_STYLE}>
+    <article data-testid="generation-mix-card" style={CARD_STYLE}>
       <h2 style={HEADING_STYLE}>{MIX_ICON}Generation Mix</h2>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-lg)' }}>
         <DonutChart sorted={sorted} lcoe={lcoe} />
