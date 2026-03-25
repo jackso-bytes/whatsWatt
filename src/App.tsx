@@ -84,6 +84,32 @@ export default function App() {
                 unitRate={data.unitRate?.value ?? 0}
               />
             )}
+
+            <div className="flex items-center justify-center py-sm mt-md">
+              <button
+                type="button"
+                aria-label="Refresh data"
+                onClick={data.refetch}
+                className="flex items-center gap-xs text-xs font-medium text-[var(--color-text-disabled)] hover:text-[var(--color-brand-light)] transition-colors duration-[var(--dur-fast)] cursor-pointer bg-transparent border-none"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  className="w-3 h-3"
+                >
+                  <path
+                    d="M10.5 6 A4.5 4.5 0 1 1 8.5 2.2 L10.5 2.2 M10.5 2.2 L10.5 4.2"
+                    stroke="currentColor"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                Refresh
+              </button>
+            </div>
           </>
         )}
       </main>
