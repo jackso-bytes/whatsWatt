@@ -148,7 +148,10 @@ export function usePostcodeData(postcode: string): PostcodeDataState {
     dispatch({ type: 'loading' })
 
     void Promise.allSettled([fetchCi(context), fetchOctopus(context), fetchAq(context)]).then(() => {
-      if (!ignore.current) dispatch({ type: 'success' })
+      if (!ignore.current) {
+        localStorage.setItem('whats-watt:postcode', postcode)
+        dispatch({ type: 'success' })
+      }
     })
 
     return () => {
