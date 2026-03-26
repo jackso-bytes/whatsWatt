@@ -19,13 +19,6 @@ const LEVEL_ORDER: AqiLevel[] = [
   'poor',
   'very-poor',
 ];
-const LEVEL_LABELS: Record<AqiLevel, string> = {
-  good: 'Good',
-  fair: 'Fair',
-  moderate: 'Moderate',
-  poor: 'Poor',
-  'very-poor': 'Very Poor',
-};
 const INACTIVE_OPACITY = 0.35;
 
 function levelToIndex(level: AqiLevel): number {
@@ -94,10 +87,66 @@ function ScaleBar({ activeIndex }: Readonly<ScaleBarProperties>) {
   );
 }
 
+interface AqiHeaderProperties {
+  readonly label: string;
+  readonly colour: string;
+}
+
+function AqiHeader({ label, colour }: Readonly<AqiHeaderProperties>) {
+  return (
+    <div className='flex items-center justify-between mb-md'>
+      <span
+        className='text-base font-semibold text-text-primary'
+        id='aqi-heading'
+      >
+        Air Quality
+      </span>
+      <div
+        role='img'
+        aria-label={`Air quality: ${label}`}
+        className='inline-flex items-center gap-[5px] px-3 py-1 rounded-pill text-white text-xs font-bold tracking-[0.06em] uppercase'
+        style={{ background: colour }}
+      >
+        <span
+          aria-hidden='true'
+          className='w-[6px] h-[6px] rounded-full bg-white/60 inline-block'
+        />
+        {label}
+      </div>
+    </div>
+  );
+}
+
+interface AqiNumberProperties {
+  readonly displayIndex: number;
+  readonly colour: string;
+}
+
+function AqiNumber({ displayIndex, colour }: Readonly<AqiNumberProperties>) {
+  return (
+    <div className='flex items-baseline gap-sm mb-md'>
+      <span
+        className='font-display text-[3.5rem] font-extrabold leading-none tabular-nums tracking-[-0.04em]'
+        style={{ color: colour }}
+        aria-label={`European AQI ${displayIndex}`}
+      >
+        {displayIndex}
+      </span>
+      <span
+        aria-hidden='true'
+        className='text-lg font-semibold'
+        style={{ color: colour }}
+      >
+        / 5
+      </span>
+    </div>
+  );
+}
+
 export function AirQualityCard({ aqi }: Readonly<Properties>) {
   const { level, pm25, no2, o3 } = aqi;
   const displayIndex = levelToIndex(level);
-  const label = LEVEL_LABELS[level];
+  const label = level.toLocaleUpperCase();
   const colour = `var(--color-aqi-${level})`;
 
   return (
@@ -110,51 +159,10 @@ export function AirQualityCard({ aqi }: Readonly<Properties>) {
       }}
       aria-labelledby='aqi-heading'
     >
-      <div className='flex items-center justify-between mb-md'>
-        <span
-          className='text-base font-semibold text-text-primary'
-          id='aqi-heading'
-        >
-          Air Quality
-        </span>
-        <div
-          role='img'
-          aria-label={`Air quality: ${label}`}
-          className='inline-flex items-center gap-[5px] px-3 py-1 rounded-pill text-white text-xs font-bold tracking-[0.06em] uppercase'
-          style={{ background: colour }}
-        >
-          <span
-            aria-hidden='true'
-            className='w-[6px] h-[6px] rounded-full bg-white/60 inline-block'
-          />
-          {label}
-        </div>
-      </div>
-
-      <div className='flex items-baseline gap-sm mb-md'>
-        <span
-          className='font-display text-[3.5rem] font-extrabold leading-none tabular-nums tracking-[-0.04em]'
-          style={{ color: colour }}
-          aria-label={`European AQI ${displayIndex}`}
-        >
-          {displayIndex}
-        </span>
-        <span
-          aria-hidden='true'
-          className='text-lg font-semibold'
-          style={{ color: colour }}
-        >
-          / 5
-        </span>
-      </div>
-
+      <AqiHeader label={label} colour={colour} />
+      <AqiNumber displayIndex={displayIndex} colour={colour} />
       <ScaleBar activeIndex={displayIndex} />
-
-      <div
-        role='list'
-        aria-label='Key pollutants'
-        className='flex gap-md flex-wrap'
-      >
+      <ul aria-label='Key pollutants' className='flex gap-md flex-wrap'>
         <PollutantTile
           name='PM2.5'
           value={pm25}
@@ -170,7 +178,7 @@ export function AirQualityCard({ aqi }: Readonly<Properties>) {
           value={o3}
           ariaLabel={`${o3.toFixed(1)} micrograms per cubic metre`}
         />
-      </div>
+      </ul>
     </article>
   );
 }
