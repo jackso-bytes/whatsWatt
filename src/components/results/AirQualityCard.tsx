@@ -19,6 +19,28 @@ const LEVEL_ORDER: AqiLevel[] = [
   'poor',
   'very-poor',
 ];
+type LevelLabel = 'Good' | 'Fair' | 'Moderate' | 'Poor' | 'Very Poor';
+
+const getLevelLabels = (level: AqiLevel): LevelLabel => {
+  switch (level) {
+    case 'fair': {
+      return 'Fair';
+    }
+    case 'moderate': {
+      return 'Moderate';
+    }
+    case 'good': {
+      return 'Good';
+    }
+    case 'poor': {
+      return 'Poor';
+    }
+    case 'very-poor': {
+      return 'Very Poor';
+    }
+  }
+};
+
 const INACTIVE_OPACITY = 0.35;
 
 function levelToIndex(level: AqiLevel): number {
@@ -146,7 +168,7 @@ function AqiNumber({ displayIndex, colour }: Readonly<AqiNumberProperties>) {
 export function AirQualityCard({ aqi }: Readonly<Properties>) {
   const { level, pm25, no2, o3 } = aqi;
   const displayIndex = levelToIndex(level);
-  const label = level.toLocaleUpperCase();
+  const label = getLevelLabels(level);
   const colour = `var(--color-aqi-${level})`;
 
   return (
