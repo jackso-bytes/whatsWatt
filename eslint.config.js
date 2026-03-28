@@ -46,7 +46,6 @@ export default tseslint.config(
         'error',
         { func: 2, constructor: 10 },
       ],
-      'max-lines-per-function': ['error', { max: 50, skipBlankLines: true }],
       'max-lines': ['error', { max: 250, skipBlankLines: true }],
       '@typescript-eslint/no-floating-promises': 'error',
       'no-magic-numbers': [
@@ -58,6 +57,19 @@ export default tseslint.config(
           ignoreArrayIndexes: true,
         },
       ],
+    },
+  },
+  // Have a higher max line limit for UI components
+  {
+    files: ['**/*.tsx'],
+    rules: {
+      'max-lines-per-function': ['error', { max: 150, skipBlankLines: true }],
+    },
+  },
+  {
+    files: ['**/*.ts'],
+    rules: {
+      'max-lines-per-function': ['error', { max: 50, skipBlankLines: true }],
     },
   },
   {

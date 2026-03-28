@@ -7,7 +7,7 @@ interface Properties {
 export function RegionHeader({ postcode, regionName, gspId }: Properties) {
   const gspLetter = gspId.startsWith('_') ? gspId.slice(1) : gspId
   return (
-    <p>
+    <p data-testid="region-header">
       {postcode} · {regionName} · GSP Region {gspLetter}
     </p>
   )

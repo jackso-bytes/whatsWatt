@@ -87,6 +87,7 @@ export function CarbonIntensityCard({ intensity }: Properties) {
 
   return (
     <article
+      data-testid="carbon-intensity-card"
       aria-labelledby="intensity-heading"
       className="relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_4px_32px_rgba(0,0,0,0.45)]"
       style={{ background: bgToken, border: `1px solid ${borderToken}` }}
