@@ -28,7 +28,11 @@ export default tseslint.config(
     languageOptions: {
       globals: globals.browser,
       parserOptions: {
-        project: ['./tsconfig.app.json', './tsconfig.test.json', './tsconfig.e2e.json'],
+        project: [
+          './tsconfig.app.json',
+          './tsconfig.test.json',
+          './tsconfig.e2e.json',
+        ],
         tsconfigRootDir: import.meta.dirname,
       },
     },
