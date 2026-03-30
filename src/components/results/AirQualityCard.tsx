@@ -1,3 +1,4 @@
+import { Primitive } from '@radix-ui/react-primitive';
 import type { AqiLevel } from '../../utils/aqi-band';
 
 interface AqiData {
@@ -10,6 +11,8 @@ interface AqiData {
 
 interface Properties {
   readonly aqi: AqiData;
+  readonly error?: Error;
+  readonly onRetry?: () => void;
 }
 
 const LEVEL_ORDER: AqiLevel[] = [
@@ -165,7 +168,19 @@ function AqiNumber({ displayIndex, colour }: Readonly<AqiNumberProperties>) {
   );
 }
 
-export function AirQualityCard({ aqi }: Readonly<Properties>) {
+export function AirQualityCard({ aqi, error, onRetry }: Readonly<Properties>) {
+  if (error) {
+    return (
+      <article data-testid="air-quality-card" className="rounded-card p-lg bg-surface-raised border border-border shadow-[0_2px_24px_rgba(0,0,0,0.32)] flex items-center justify-between gap-md">
+        <p role="alert" className="text-sm text-[var(--color-intensity-high)]">Air quality unavailable</p>
+        {onRetry && (
+          <Primitive.button type="button" onClick={onRetry} aria-label="Retry loading air quality" className="text-xs font-semibold text-[var(--color-intensity-high)] border border-[var(--color-intensity-high-border)] rounded-button px-3 py-1 cursor-pointer">
+            Retry
+          </Primitive.button>
+        )}
+      </article>
+    )
+  }
   const { level, pm25, no2, o3 } = aqi;
   const displayIndex = levelToIndex(level);
   const label = getLevelLabels(level);

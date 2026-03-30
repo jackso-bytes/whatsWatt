@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { CarbonIntensityCard } from './CarbonIntensityCard'
 
 const baseIntensity = {
@@ -56,5 +57,17 @@ describe('CarbonIntensityCard', () => {
     // 2025-01-15T14:30:00Z → "Updated 14:30" in Europe/London (UTC in winter)
     const timestamp = document.querySelector('.intensity-timestamp')
     expect(timestamp?.textContent).toMatch(/Updated \d{2}:\d{2}/)
+  })
+
+  it('shows error state when error prop set', () => {
+    render(<CarbonIntensityCard intensity={baseIntensity} error={new Error('fail')} onRetry={jest.fn()} />)
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+  })
+
+  it('calls onRetry when retry clicked in error state', () => {
+    const onRetry = jest.fn()
+    render(<CarbonIntensityCard intensity={baseIntensity} error={new Error('fail')} onRetry={onRetry} />)
+    fireEvent.click(screen.getByRole('button', { name: /retry/i }))
+    expect(onRetry).toHaveBeenCalledTimes(1)
   })
 })

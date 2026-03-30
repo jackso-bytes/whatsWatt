@@ -138,6 +138,13 @@ it('shows the one success when two services fail', async () => {
   expect(result.current.aqi?.index).toBe(AQ_RESULT.european_aqi)
 })
 
+it('exposes a refetch function', async () => {
+  setupAllMocksOk()
+  const { result } = renderHook(() => usePostcodeData('NR1'))
+  await waitFor(() => { expect(result.current.status).toBe('success') })
+  expect(typeof result.current.refetch).toBe('function')
+})
+
 it('ignores stale results when postcode changes mid-flight', async () => {
   let resolveFirst!: (value: typeof CI_RESULT) => void
   const firstCall = new Promise<typeof CI_RESULT>((resolve) => { resolveFirst = resolve })

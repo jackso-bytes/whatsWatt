@@ -13,10 +13,12 @@ jest.mock('./hooks/use-postcode-data', () => ({
 import { usePostcodeData } from './hooks/use-postcode-data'
 const mockUsePostcodeData = usePostcodeData as jest.MockedFunction<typeof usePostcodeData>
 
-const idle: PostcodeDataState = { status: 'idle' }
-const loading: PostcodeDataState = { status: 'loading' }
+const REFETCH = jest.fn()
+const idle: PostcodeDataState = { status: 'idle', refetch: REFETCH }
+const loading: PostcodeDataState = { status: 'loading', refetch: REFETCH }
 const fullSuccess: PostcodeDataState = {
   status: 'success',
+  refetch: REFETCH,
   region: { name: 'East England', gspId: '_P' },
   intensity: { actual: 150, band: 'moderate', updatedAt: '2024-01-01T12:00:00Z' },
   generationMix: [{ fuel: 'wind', perc: 40 }, { fuel: 'gas', perc: 60 }],
@@ -96,6 +98,24 @@ describe('App — results success state', () => {
 
   it('renders cost breakdown card', () => {
     expect(screen.getByTestId('cost-breakdown-card')).toBeInTheDocument()
+  })
+})
+
+describe('App — error states', () => {
+  it('shows network banner when all 3 APIs fail', () => {
+    mockUsePostcodeData.mockReturnValue({ ...fullSuccess, intensityError: new Error('CI'), unitRateError: new Error('Oct'), aqiError: new Error('AQI') })
+    render(<App />)
+    fireEvent.change(screen.getByRole('textbox', { name: /uk postcode/i }), { target: { value: 'NR1 4AA' } })
+    fireEvent.click(screen.getByRole('button', { name: /get electricity data/i }))
+    expect(screen.getAllByRole('alert').length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('shows refresh button after data loads', () => {
+    mockUsePostcodeData.mockReturnValue(fullSuccess)
+    render(<App />)
+    fireEvent.change(screen.getByRole('textbox', { name: /uk postcode/i }), { target: { value: 'NR1 4AA' } })
+    fireEvent.click(screen.getByRole('button', { name: /get electricity data/i }))
+    expect(screen.getByRole('button', { name: /refresh data/i })).toBeInTheDocument()
   })
 })
 
