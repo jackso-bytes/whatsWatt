@@ -13,7 +13,7 @@ jest.mock('./hooks/use-postcode-data', () => ({
 import { usePostcodeData } from './hooks/use-postcode-data'
 const mockUsePostcodeData = usePostcodeData as jest.MockedFunction<typeof usePostcodeData>
 
-const noop = () => undefined
+const noop = () => {}
 const idle: PostcodeDataState = { status: 'idle', refetch: noop }
 const loading: PostcodeDataState = { status: 'loading', refetch: noop }
 const fullSuccess: PostcodeDataState = {
