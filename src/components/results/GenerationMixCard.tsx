@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { Primitive } from '@radix-ui/react-primitive'
 
 const DONUT_RADIUS = 56
 const CIRCUMFERENCE = 2 * Math.PI * DONUT_RADIUS
@@ -7,7 +8,7 @@ const PERCENT = 100
 
 interface FuelEntry { readonly fuel: string; readonly perc: number }
 interface LcoeEntry { readonly label: string; readonly low: number; readonly high?: number; readonly colour: string }
-interface Properties { readonly mix: FuelEntry[]; readonly lcoe: Record<string, LcoeEntry> }
+interface Properties { readonly mix: FuelEntry[]; readonly lcoe: Record<string, LcoeEntry>; readonly error?: Error; readonly onRetry?: () => void }
 interface Segment { fuel: string; colour: string; dashArray: string; dashOffset: number }
 
 function fuelLabel(fuel: string, entry: LcoeEntry | undefined): string {
@@ -94,10 +95,22 @@ const MIX_ICON = (
   </svg>
 )
 
-export function GenerationMixCard({ mix, lcoe }: Properties) {
+export function GenerationMixCard({ mix, lcoe, error, onRetry }: Properties) {
+  if (error) {
+    return (
+      <article data-testid="generation-mix-card" className="rounded-card p-lg bg-surface-raised border border-border shadow-[0_2px_24px_rgba(0,0,0,0.32)] flex items-center justify-between gap-md">
+        <p role="alert" className="text-sm text-[var(--color-intensity-high)]">Generation mix unavailable</p>
+        {onRetry && (
+          <Primitive.button type="button" onClick={onRetry} aria-label="Retry loading generation mix" className="text-xs font-semibold text-[var(--color-intensity-high)] border border-[var(--color-intensity-high-border)] rounded-button px-3 py-1 cursor-pointer">
+            Retry
+          </Primitive.button>
+        )}
+      </article>
+    )
+  }
   const sorted = mix.toSorted((a, b) => b.perc - a.perc)
   return (
-    <article style={CARD_STYLE}>
+    <article data-testid="generation-mix-card" style={CARD_STYLE}>
       <h2 style={HEADING_STYLE}>{MIX_ICON}Generation Mix</h2>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-lg)' }}>
         <DonutChart sorted={sorted} lcoe={lcoe} />

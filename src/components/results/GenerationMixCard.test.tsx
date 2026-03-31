@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { LCOE } from '../../data/lcoe'
 import { GenerationMixCard } from './GenerationMixCard'
 
@@ -58,5 +59,17 @@ describe('GenerationMixCard', () => {
   it('shows LCOE range for nuclear (£95-125/MWh)', () => {
     render(<GenerationMixCard mix={sampleMix} lcoe={LCOE} />)
     expect(screen.getByText('£95-125/MWh')).toBeInTheDocument()
+  })
+
+  it('shows error state when error prop set', () => {
+    render(<GenerationMixCard mix={sampleMix} lcoe={LCOE} error={new Error('fail')} onRetry={jest.fn()} />)
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+  })
+
+  it('calls onRetry when retry clicked in error state', () => {
+    const onRetry = jest.fn()
+    render(<GenerationMixCard mix={sampleMix} lcoe={LCOE} error={new Error('fail')} onRetry={onRetry} />)
+    fireEvent.click(screen.getByRole('button', { name: /retry/i }))
+    expect(onRetry).toHaveBeenCalledTimes(1)
   })
 })

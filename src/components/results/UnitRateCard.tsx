@@ -3,15 +3,33 @@ interface UnitRateData {
   readonly tariff: string
 }
 
+import { Primitive } from '@radix-ui/react-primitive'
+
 interface Properties {
   readonly unitRate: UnitRateData
+  readonly error?: Error
+  readonly onRetry?: () => void
 }
 
-export function UnitRateCard({ unitRate }: Readonly<Properties>) {
+export function UnitRateCard({ unitRate, error, onRetry }: Readonly<Properties>) {
   const { value, tariff } = unitRate
+
+  if (error) {
+    return (
+      <article data-testid="unit-rate-card" className="rounded-card p-lg bg-surface-raised border border-border shadow-[0_2px_24px_rgba(0,0,0,0.32)] flex items-center justify-between gap-md">
+        <p role="alert" className="text-sm text-[var(--color-intensity-high)]">Unit rate unavailable</p>
+        {onRetry && (
+          <Primitive.button type="button" onClick={onRetry} aria-label="Retry loading unit rate" className="text-xs font-semibold text-[var(--color-intensity-high)] border border-[var(--color-intensity-high-border)] rounded-button px-3 py-1 cursor-pointer">
+            Retry
+          </Primitive.button>
+        )}
+      </article>
+    )
+  }
 
   return (
     <article
+      data-testid="unit-rate-card"
       className="rounded-card p-lg bg-surface-raised border border-border shadow-[0_2px_24px_rgba(0,0,0,0.32)]"
       aria-labelledby="unit-rate-heading"
     >

@@ -1,3 +1,5 @@
+import { Primitive } from '@radix-ui/react-primitive'
+
 const MAX_INTENSITY = 300
 const PERCENT_SCALE = 100
 
@@ -9,6 +11,8 @@ interface Intensity {
 
 interface Properties {
   readonly intensity: Intensity
+  readonly error?: Error
+  readonly onRetry?: () => void
 }
 
 function bandLabel(band: Intensity['band']): string {
@@ -79,7 +83,19 @@ function ScaleBar({ actual, colorToken }: ScaleBarProperties) {
   )
 }
 
-export function CarbonIntensityCard({ intensity }: Properties) {
+export function CarbonIntensityCard({ intensity, error, onRetry }: Properties) {
+  if (error) {
+    return (
+      <article data-testid="carbon-intensity-card" className="relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] shadow-[0_4px_32px_rgba(0,0,0,0.45)] bg-[var(--color-intensity-high-bg)] border border-[var(--color-intensity-high-border)] flex items-center justify-between gap-md">
+        <p role="alert" className="text-sm text-[var(--color-intensity-high)]">Carbon intensity unavailable</p>
+        {onRetry && (
+          <Primitive.button type="button" onClick={onRetry} aria-label="Retry loading carbon intensity" className="text-xs font-semibold text-[var(--color-intensity-high)] border border-[var(--color-intensity-high-border)] rounded-button px-3 py-1 cursor-pointer">
+            Retry
+          </Primitive.button>
+        )}
+      </article>
+    )
+  }
   const colorToken = `var(--color-intensity-${intensity.band})`
   const bgToken = `var(--color-intensity-${intensity.band}-bg)`
   const borderToken = `var(--color-intensity-${intensity.band}-border)`
@@ -87,6 +103,7 @@ export function CarbonIntensityCard({ intensity }: Properties) {
 
   return (
     <article
+      data-testid="carbon-intensity-card"
       aria-labelledby="intensity-heading"
       className="relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_4px_32px_rgba(0,0,0,0.45)]"
       style={{ background: bgToken, border: `1px solid ${borderToken}` }}
