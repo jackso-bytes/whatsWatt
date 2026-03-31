@@ -138,11 +138,13 @@ it('shows the one success when two services fail', async () => {
   expect(result.current.aqi?.index).toBe(AQ_RESULT.european_aqi)
 })
 
-it('exposes a refetch function', async () => {
+it('writes postcode to localStorage on successful lookup', async () => {
   setupAllMocksOk()
-  const { result } = renderHook(() => usePostcodeData('NR1'))
+  const setItemSpy = jest.spyOn(Storage.prototype, 'setItem')
+  const { result } = renderHook(() => usePostcodeData('NR1 4AA'))
   await waitFor(() => { expect(result.current.status).toBe('success') })
-  expect(typeof result.current.refetch).toBe('function')
+  expect(setItemSpy).toHaveBeenCalledWith('whats-watt:postcode', 'NR1 4AA')
+  setItemSpy.mockRestore()
 })
 
 it('ignores stale results when postcode changes mid-flight', async () => {
