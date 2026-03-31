@@ -9,17 +9,6 @@ Goal: show real-time electricity signal per postcode:
 - how green
 - how cheap
 
-Design source of truth:
-`electricity-dashboard-mockup.html`
-
-Design rules:
-
-- Ocean Depths dark theme
-- Plus Jakarta Sans
-- teal/green palette
-- card-based UI
-- mobile-first → 2-col desktop
-
 ## TECH STACK
 
 - React 18 + Vite
@@ -28,8 +17,6 @@ Design rules:
 - Radix UI primitives
 - Vitest + React Testing Library
 - Playwright (E2E)
-- localStorage (postcode)
-- useState / useReducer only
 
 ## Testing
 
@@ -53,3 +40,7 @@ Design rules:
 
 - Package manager: `pnpm`
 - Run tests: `npx jest` (not `pnpm test`, which doesn't support `--testPathPatterns`)
+
+## Design Guidance
+
+- Reference `design-guidance.md`
