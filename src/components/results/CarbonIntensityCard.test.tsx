@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import '@testing-library/jest-dom'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { CarbonIntensityCard } from './CarbonIntensityCard'
@@ -31,7 +28,6 @@ describe('CarbonIntensityCard', () => {
   it('sets scale marker left position as percentage of 300', () => {
     render(<CarbonIntensityCard intensity={baseIntensity} />)
     const marker = document.querySelector('.intensity-scale-marker') as HTMLElement
-    // 142/300 * 100 = 47.333...%
     expect(marker.style.left).toBe('47.333333333333336%')
   })
 
@@ -54,7 +50,6 @@ describe('CarbonIntensityCard', () => {
 
   it('renders updated timestamp from ISO string', () => {
     render(<CarbonIntensityCard intensity={baseIntensity} />)
-    // 2025-01-15T14:30:00Z → "Updated 14:30" in Europe/London (UTC in winter)
     const timestamp = document.querySelector('.intensity-timestamp')
     expect(timestamp?.textContent).toMatch(/Updated \d{2}:\d{2}/)
   })

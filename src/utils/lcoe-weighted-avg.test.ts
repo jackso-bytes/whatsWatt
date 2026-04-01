@@ -19,9 +19,6 @@ describe('lcoeWeightedAvg', () => {
   })
 
   it('returns ~£97/MWh for prototype UK generation mix', () => {
-    // gas=55%, wind=18%, nuclear=14%, solar=5%, hydro=5%, imports=3%
-    // matched (low>0): gas+wind+nuclear+solar → totalPerc=92
-    // (55*105 + 18*83 + 14*95 + 5*60) / 92 = 8899/92 ≈ 96.73
     const mix = [
       { fuel: 'gas',     perc: 55 },
       { fuel: 'wind',    perc: 18 },
@@ -42,7 +39,6 @@ describe('lcoeWeightedAvg', () => {
   })
 
   it('excludes fuels with low === 0 (hydro, imports)', () => {
-    // hydro and imports have low=0, so only gas contributes
     const mix = [
       { fuel: 'gas',     perc: 50 },
       { fuel: 'hydro',   perc: 30 },

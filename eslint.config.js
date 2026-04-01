@@ -8,6 +8,7 @@ import security from 'eslint-plugin-security';
 import playwright from 'eslint-plugin-playwright';
 import globals from 'globals';
 import betterMaxParams from 'eslint-plugin-better-max-params';
+import noComments from 'eslint-plugin-no-comments';
 
 export default tseslint.config(
   {
@@ -24,6 +25,7 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'better-max-params': betterMaxParams,
+      'no-comments': noComments,
     },
     languageOptions: {
       globals: globals.browser,
@@ -34,6 +36,7 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      'no-comments/disallowComments': 'error',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
@@ -42,6 +45,7 @@ export default tseslint.config(
         'error',
         { cases: { kebabCase: true, pascalCase: true } },
       ],
+
       'better-max-params/better-max-params': [
         'error',
         { func: 2, constructor: 10 },

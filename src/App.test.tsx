@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import '@testing-library/jest-dom'
 import { render, screen, fireEvent } from '@testing-library/react'
 import App from './App'
@@ -57,7 +54,6 @@ describe('App — results loading state', () => {
   it('shows skeleton while loading', () => {
     mockUsePostcodeData.mockReturnValue(loading)
     render(<App />)
-    // submit a postcode to trigger results view
     fireEvent.change(screen.getByRole('textbox', { name: /uk postcode/i }), {
       target: { value: 'NR1 4AA' },
     })

@@ -66,6 +66,9 @@ importers:
       eslint-plugin-better-max-params:
         specifier: ^1.0.0
         version: 1.0.0(eslint@9.39.4(jiti@2.6.1))
+      eslint-plugin-no-comments:
+        specifier: ^1.1.10
+        version: 1.1.10
       eslint-plugin-react-hooks:
         specifier: ^7.0.1
         version: 7.0.1(eslint@9.39.4(jiti@2.6.1))
@@ -1389,6 +1392,9 @@ packages:
     engines: {node: '>= 22'}
     peerDependencies:
       eslint: '>=9'
+
+  eslint-plugin-no-comments@1.1.10:
+    resolution: {integrity: sha512-hJohtfKNKDDAmhQ/VsvaN7Q41npFVBeAQISf54ywRQx7EhknF+068SPHj5g3njKMoxYAuk62ahJvJQQvMYeL7g==}
 
   eslint-plugin-playwright@2.10.0:
     resolution: {integrity: sha512-PByRBp5LhCUd3pd2dxQ7vq6p9iJRPCYgIDakYYkCAPJUPUuKA8/NxyFZVLf0FYYc7s4c+85BqLk+f8LeO0g6aw==}
@@ -3939,6 +3945,8 @@ snapshots:
   eslint-plugin-better-max-params@1.0.0(eslint@9.39.4(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.4(jiti@2.6.1)
+
+  eslint-plugin-no-comments@1.1.10: {}
 
   eslint-plugin-playwright@2.10.0(eslint@9.39.4(jiti@2.6.1)):
     dependencies:
