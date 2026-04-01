@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { renderHook, waitFor } from '@testing-library/react'
 import { usePostcodeData } from './use-postcode-data'
 

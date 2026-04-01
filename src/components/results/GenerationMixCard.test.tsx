@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import '@testing-library/jest-dom'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { LCOE } from '../../data/lcoe'
@@ -31,18 +28,15 @@ describe('GenerationMixCard', () => {
 
   it('shows LCOE value for fuels with known cost; dash for zero-cost fuels', () => {
     render(<GenerationMixCard mix={sampleMix} lcoe={LCOE} />)
-    expect(screen.getByText('£83/MWh')).toBeInTheDocument()  // wind
-    expect(screen.getByText('£105/MWh')).toBeInTheDocument() // gas
-    expect(screen.getByText('£60/MWh')).toBeInTheDocument()  // solar
-    // hydro and imports have low=0 → show dash
+    expect(screen.getByText('£83/MWh')).toBeInTheDocument()
+    expect(screen.getByText('£105/MWh')).toBeInTheDocument()
+    expect(screen.getByText('£60/MWh')).toBeInTheDocument()
     const dashes = screen.getAllByText('—')
     expect(dashes.length).toBeGreaterThanOrEqual(2)
   })
 
   it('centre label shows dominant fuel name and percentage', () => {
     render(<GenerationMixCard mix={sampleMix} lcoe={LCOE} />)
-    // Wind is dominant at 32% — centre label is aria-hidden but still in DOM
-    // The donut wrapper div is also aria-hidden; check the one with text content
     const allHidden = document.querySelectorAll('[aria-hidden="true"]')
     const centreDiv = [...allHidden].find(element => element.textContent?.includes('32%') && element.textContent?.includes('Wind'))
     expect(centreDiv).toBeTruthy()
