@@ -20,8 +20,9 @@ interface ApiResponse {
 }
 
 export async function carbonIntensity(postcode: string): Promise<CarbonIntensityResult> {
+  const outward = postcode.split(' ')[0]
   const response = await fetch(
-    `https://api.carbonintensity.org.uk/regional/postcode/${postcode}`,
+    `https://api.carbonintensity.org.uk/regional/postcode/${outward}`,
   )
   if (!response.ok) throw new Error(`Carbon Intensity API error: ${response.status}`)
 
