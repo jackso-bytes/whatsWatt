@@ -19,14 +19,12 @@ interface ApiResponse {
   }>;
 }
 
-export async function carbonIntensity(
-  postcode: string,
-): Promise<CarbonIntensityResult> {
+export async function carbonIntensity(postcode: string): Promise<CarbonIntensityResult> {
+  const outward = postcode.split(' ')[0]
   const response = await fetch(
-    `https://api.carbonintensity.org.uk/regional/postcode/${postcode}`,
-  );
-  if (!response.ok)
-    throw new Error(`Carbon Intensity API error: ${response.status}`);
+    `https://api.carbonintensity.org.uk/regional/postcode/${outward}`,
+  )
+  if (!response.ok) throw new Error(`Carbon Intensity API error: ${response.status}`)
 
   const json: ApiResponse = await response.json();
   const region = json.data[0];

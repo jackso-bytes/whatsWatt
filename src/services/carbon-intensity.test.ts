@@ -49,6 +49,22 @@ describe('carbonIntensity', () => {
     ])
   })
 
+  it('uses only the outward code when a full postcode is passed', async () => {
+    ;(globalThis.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(FIXTURE),
+    })
+
+    await carbonIntensity('NR1 3AZ')
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/postcode/NR1'),
+    )
+    expect(globalThis.fetch).not.toHaveBeenCalledWith(
+      expect.stringContaining('3AZ'),
+    )
+  })
+
   it('throws on non-2xx response', async () => {
     ;(globalThis.fetch as jest.Mock).mockResolvedValue({
       ok: false,
