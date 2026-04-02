@@ -21,7 +21,7 @@ const REFRESH_ICON = (
 )
 
 export default function App() {
-  const [postcode, setPostcode] = useState('')
+  const [postcode, setPostcode] = useState(() => localStorage.getItem('whats-watt:postcode') ?? '')
   const data = usePostcodeData(postcode)
 
   const allApiFailed = Boolean(data.intensityError && data.unitRateError && data.aqiError)
