@@ -66,4 +66,18 @@ describe('GenerationMixCard', () => {
     fireEvent.click(screen.getByRole('button', { name: /retry/i }))
     expect(onRetry).toHaveBeenCalledTimes(1)
   })
+
+  it('filters out non-spec fuel types (coal, oil, other)', () => {
+    const mixWithExtras = [
+      ...sampleMix,
+      { fuel: 'coal', perc: 1 },
+      { fuel: 'oil', perc: 1 },
+      { fuel: 'other', perc: 1 },
+    ]
+    render(<GenerationMixCard mix={mixWithExtras} lcoe={LCOE} />)
+    const legend = screen.getByRole('list', { name: /generation mix legend/i })
+    expect(legend).not.toHaveTextContent('Coal')
+    expect(legend).not.toHaveTextContent('Oil')
+    expect(legend).not.toHaveTextContent('Other')
+  })
 })
