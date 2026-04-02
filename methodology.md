@@ -31,7 +31,7 @@ Used the `create-prd` skill to formalise the idea into a structured Product Requ
 - Tech stack decisions (React 18, Vite, TypeScript strict, Tailwind v4, Radix UI)
 - Component hierarchy
 - Data-fetching strategy (`usePostcodeData` hook with parallel fetches)
-- Static data (LCOE constants from DESNZ *Electricity Generation Costs 2025*)
+- Static data (LCOE constants from DESNZ _Electricity Generation Costs 2025_)
 - Full testing plan (unit, component, E2E)
 - Accessibility requirements
 
@@ -104,9 +104,3 @@ Once enough tickets accumulate in the Done column, a human QA pass reviews:
 - E2E Playwright suite green across all scenarios
 
 Approved tickets are merged to `main`.
-
----
-
-## Reflections
-
-This workflow demonstrates that AI can own the entire implementation loop when given clear constraints — a tight PRD, a visual source of truth, a test discipline, and an issue hierarchy that encodes dependencies. The human role shifts from writing code to making decisions: what to build, what it should look like, and whether the result meets the bar.
