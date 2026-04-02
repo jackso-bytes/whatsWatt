@@ -119,9 +119,9 @@ export function CarbonIntensityCard({ intensity, error, onRetry }: Properties) {
       </div>
       <div className="flex items-baseline gap-[var(--space-sm)] mb-[var(--space-sm)]">
         <span
-          className="font-[var(--font-display)] text-[var(--text-hero)] font-extrabold leading-none tabular-nums tracking-[-0.04em]"
+          className="font-display text-hero font-extrabold leading-none tabular-nums tracking-[-0.04em]"
           aria-label={`${intensity.actual} grams CO2 per kilowatt-hour`}
-          style={{ color: colorToken }}
+          style={{ color: colorToken, fontFeatureSettings: "'tnum'" }}
         >
           {intensity.actual}
         </span>
