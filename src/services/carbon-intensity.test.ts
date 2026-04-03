@@ -1,6 +1,6 @@
-import { carbonIntensity } from './carbon-intensity'
+import { carbonIntensity } from './carbon-intensity';
 
-const ACTUAL_INTENSITY = 85
+const ACTUAL_INTENSITY = 85;
 
 const FIXTURE = {
   data: [
@@ -9,7 +9,7 @@ const FIXTURE = {
       data: [
         {
           from: '2024-01-15T12:00Z',
-          intensity: { actual: ACTUAL_INTENSITY },
+          intensity: { actual: ACTUAL_INTENSITY, index: 'low' },
           generationmix: [
             { fuel: 'gas', perc: 40.5 },
             { fuel: 'wind', perc: 35.2 },
@@ -19,58 +19,84 @@ const FIXTURE = {
       ],
     },
   ],
-}
+};
 
 beforeEach(() => {
-  globalThis.fetch = jest.fn() as typeof fetch
-})
+  globalThis.fetch = jest.fn() as typeof fetch;
+});
 
 afterEach(() => {
-  jest.resetAllMocks()
-})
+  jest.resetAllMocks();
+});
 
-describe('carbonIntensity', () => {
+describe('carbonIntensity — response parsing', () => {
   it('extracts actual, regionName, generationMix, band and updatedAt', async () => {
-    ;(globalThis.fetch as jest.Mock).mockResolvedValue({
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(FIXTURE),
-    })
+    });
 
-    const result = await carbonIntensity('SE1')
-
-    expect(result.actual).toBe(ACTUAL_INTENSITY)
-    expect(result.regionName).toBe('South East')
-    expect(result.band).toBe('low')
-    expect(result.updatedAt).toBe('2024-01-15T12:00Z')
+    const result = await carbonIntensity('SE1');
+    expect(result.actual).toBe(ACTUAL_INTENSITY);
+    expect(result.regionName).toBe('South East');
+    expect(result.band).toBe('low');
+    expect(result.updatedAt).toBe('2024-01-15T12:00Z');
     expect(result.generationMix).toEqual([
       { fuel: 'gas', perc: 40.5 },
       { fuel: 'wind', perc: 35.2 },
       { fuel: 'solar', perc: 24.3 },
-    ])
-  })
+    ]);
+  });
 
+  it('falls back to forecast when actual is absent', async () => {
+    const fixture = {
+      data: [
+        {
+          shortname: 'South East',
+          data: [
+            {
+              from: '2024-01-15T12:00Z',
+              intensity: { forecast: ACTUAL_INTENSITY, index: 'low' },
+              generationmix: [],
+            },
+          ],
+        },
+      ],
+    };
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(fixture),
+    });
+    const result = await carbonIntensity('SE1');
+    expect(result.actual).toBe(ACTUAL_INTENSITY);
+  });
+});
+
+describe('carbonIntensity — request formatting', () => {
   it('uses only the outward code when a full postcode is passed', async () => {
-    ;(globalThis.fetch as jest.Mock).mockResolvedValue({
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(FIXTURE),
-    })
+    });
 
-    await carbonIntensity('NR1 3AZ')
+    await carbonIntensity('NR1 3AZ');
 
     expect(globalThis.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/postcode/NR1'),
-    )
+    );
     expect(globalThis.fetch).not.toHaveBeenCalledWith(
       expect.stringContaining('3AZ'),
-    )
-  })
+    );
+  });
+});
 
+describe('carbonIntensity — error handling', () => {
   it('throws on non-2xx response', async () => {
-    ;(globalThis.fetch as jest.Mock).mockResolvedValue({
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
       ok: false,
       status: 404,
-    })
+    });
 
-    await expect(carbonIntensity('ZZZZZ')).rejects.toThrow('404')
-  })
-})
+    await expect(carbonIntensity('ZZZZZ')).rejects.toThrow('404');
+  });
+});
