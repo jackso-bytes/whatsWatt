@@ -1,40 +1,57 @@
-import { useState } from 'react'
-import { Primitive } from '@radix-ui/react-primitive'
-import { Navbar } from './components/Navbar'
-import { Hero } from './components/Hero'
-import { Footer } from './components/Footer'
-import { Skeleton } from './components/Skeleton'
-import { NetworkBanner } from './components/NetworkBanner'
-import { RegionHeader } from './components/results/RegionHeader'
-import { CarbonIntensityCard } from './components/results/CarbonIntensityCard'
-import { GenerationMixCard } from './components/results/GenerationMixCard'
-import { AirQualityCard } from './components/results/AirQualityCard'
-import { UnitRateCard } from './components/results/UnitRateCard'
-import { CostBreakdownCard } from './components/results/CostBreakdownCard'
-import { usePostcodeData } from './hooks/use-postcode-data'
-import { LCOE } from './data/lcoe'
+import { useState } from 'react';
+import { Primitive } from '@radix-ui/react-primitive';
+import { Navbar } from './components/Navbar';
+import { Hero } from './components/Hero';
+import { Footer } from './components/Footer';
+import { Skeleton } from './components/Skeleton';
+import { NetworkBanner } from './components/NetworkBanner';
+import { RegionHeader } from './components/results/RegionHeader';
+import { CarbonIntensityCard } from './components/results/CarbonIntensityCard';
+import { GenerationMixCard } from './components/results/GenerationMixCard';
+import { AirQualityCard } from './components/results/AirQualityCard';
+import { UnitRateCard } from './components/results/UnitRateCard';
+import { CostBreakdownCard } from './components/results/CostBreakdownCard';
+import { usePostcodeData } from './hooks/use-postcode-data';
+import { LCOE } from './data/lcoe';
 
 const REFRESH_ICON = (
-  <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-3 h-3">
-    <path d="M10.5 6 A4.5 4.5 0 1 1 8.5 2.2 L10.5 2.2 M10.5 2.2 L10.5 4.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+  <svg
+    viewBox='0 0 12 12'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+    aria-hidden='true'
+    className='w-3 h-3'
+  >
+    <path
+      d='M10.5 6 A4.5 4.5 0 1 1 8.5 2.2 L10.5 2.2 M10.5 2.2 L10.5 4.2'
+      stroke='currentColor'
+      strokeWidth='1.2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
   </svg>
-)
+);
 
 export default function App() {
-  const [postcode, setPostcode] = useState('')
-  const data = usePostcodeData(postcode)
+  const [postcode, setPostcode] = useState(
+    () => localStorage.getItem('whats-watt:postcode') ?? '',
+  );
+  const data = usePostcodeData(postcode);
 
-  const allApiFailed = Boolean(data.intensityError && data.unitRateError && data.aqiError)
+  const allApiFailed = Boolean(
+    data.intensityError && data.unitRateError && data.aqiError,
+  );
+
+  const beforeForSectionTitles =
+    'before:content-[""] before:w-[3px] before:h-[14px] before:rounded-[2px] before:bg-[var(--color-brand)] before:shrink-0';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--color-bg)]">
+    <div className='min-h-screen flex flex-col bg-[var(--color-bg)]'>
       <Navbar />
-      <main className="flex-1 w-full max-w-[1100px] mx-auto px-md py-xl">
+      <main className='flex-1 w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-16 pb-16'>
         <Hero onSubmit={setPostcode} />
 
-        {postcode && allApiFailed && (
-          <NetworkBanner onRetry={data.refetch} />
-        )}
+        {postcode && allApiFailed && <NetworkBanner onRetry={data.refetch} />}
 
         {postcode && data.status === 'loading' && <Skeleton />}
 
@@ -46,19 +63,23 @@ export default function App() {
               gspId={data.region?.gspId ?? ''}
             />
 
-            <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-[0.08em] mt-xl mb-md">
-              Environmental data
+            <h2
+              className={`flex items-center gap-2 text-xs font-semibold text-text-secondary uppercase tracking-[0.08em] mt-10 mb-4 ${beforeForSectionTitles}`}
+            >
+              Environment
             </h2>
 
             {(data.intensity || data.intensityError) && (
               <CarbonIntensityCard
-                intensity={data.intensity ?? { actual: 0, band: 'low', updatedAt: '' }}
+                intensity={
+                  data.intensity ?? { actual: 0, band: 'low', updatedAt: '' }
+                }
                 error={data.intensityError}
                 onRetry={data.refetch}
               />
             )}
 
-            <div className="grid lg:grid-cols-[3fr_2fr] gap-md mt-md">
+            <div className='grid lg:grid-cols-[3fr_2fr] gap-md mt-md'>
               {(data.generationMix || data.intensityError) && (
                 <GenerationMixCard
                   mix={data.generationMix ?? []}
@@ -69,14 +90,22 @@ export default function App() {
               )}
               {(data.aqi || data.aqiError) && (
                 <AirQualityCard
-                  aqi={data.aqi ?? { index: 0, level: 'good', pm25: 0, no2: 0, o3: 0 }}
+                  aqi={
+                    data.aqi ?? {
+                      index: 0,
+                      level: 'good',
+                      pm25: 0,
+                      no2: 0,
+                      o3: 0,
+                    }
+                  }
                   error={data.aqiError}
                   onRetry={data.refetch}
                 />
               )}
             </div>
 
-            <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-[0.08em] mt-xl mb-md">
+            <h2 className='text-sm font-semibold text-text-secondary uppercase tracking-[0.08em] mt-xl mb-md before:content-[""] before:w-[3px] before:h-[14px] before:rounded-[2px] before:bg-[var(--color-brand)] before:shrink-0'>
               Price data
             </h2>
 
@@ -96,12 +125,12 @@ export default function App() {
               />
             )}
 
-            <div className="flex items-center justify-center py-sm mt-md">
+            <div className='flex items-center justify-center py-sm mt-md'>
               <Primitive.button
-                type="button"
+                type='button'
                 onClick={data.refetch}
-                aria-label="Refresh data"
-                className="flex items-center gap-xs text-[var(--text-xs)] font-medium text-[var(--color-text-disabled)] hover:text-[var(--color-brand-light)] cursor-pointer bg-transparent border-none transition-colors"
+                aria-label='Refresh data'
+                className='flex items-center gap-xs text-xs font-medium text-[var(--color-text-disabled)] hover:text-[var(--color-brand-light)] cursor-pointer bg-transparent border-none transition-colors'
               >
                 {REFRESH_ICON}
                 Refresh
@@ -112,5 +141,5 @@ export default function App() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }

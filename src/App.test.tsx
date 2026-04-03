@@ -27,6 +27,16 @@ beforeEach(() => {
   mockUsePostcodeData.mockReturnValue(idle)
 })
 
+describe('App — postcode persistence', () => {
+  it('restores saved postcode from localStorage on mount', () => {
+    localStorage.setItem('whats-watt:postcode', 'NR1 4AA')
+    mockUsePostcodeData.mockReturnValue(fullSuccess)
+    render(<App />)
+    expect(mockUsePostcodeData).toHaveBeenCalledWith('NR1 4AA')
+    localStorage.removeItem('whats-watt:postcode')
+  })
+})
+
 describe('App — landing state', () => {
   it('renders navbar', () => {
     render(<App />)

@@ -11,7 +11,13 @@ const baseIntensity = {
 describe('CarbonIntensityCard', () => {
   it('renders the actual value as the hero number', () => {
     render(<CarbonIntensityCard intensity={baseIntensity} />)
-    expect(screen.getByLabelText('142 grams CO2 per kilowatt-hour')).toBeInTheDocument()
+    expect(screen.getByLabelText('142 grams CO2 per kilowatt-hour')).toHaveTextContent('142')
+  })
+
+  it('applies font-feature-settings tnum to the hero number', () => {
+    render(<CarbonIntensityCard intensity={baseIntensity} />)
+    const heroSpan = screen.getByLabelText('142 grams CO2 per kilowatt-hour') as HTMLElement
+    expect(heroSpan.style.fontFeatureSettings).toBe("'tnum'")
   })
 
   it('renders the correct band badge text and aria-label', () => {
