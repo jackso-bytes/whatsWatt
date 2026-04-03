@@ -130,7 +130,7 @@ export default function App() {
                 type='button'
                 onClick={data.refetch}
                 aria-label='Refresh data'
-                className='flex items-center gap-xs text-[var(--text-xs)] font-medium text-[var(--color-text-disabled)] hover:text-[var(--color-brand-light)] cursor-pointer bg-transparent border-none transition-colors'
+                className='flex items-center gap-xs text-xs font-medium text-[var(--color-text-disabled)] hover:text-[var(--color-brand-light)] cursor-pointer bg-transparent border-none transition-colors'
               >
                 {REFRESH_ICON}
                 Refresh

@@ -1,71 +1,77 @@
-import { Primitive } from '@radix-ui/react-primitive'
+import { Primitive } from '@radix-ui/react-primitive';
 
-const MAX_INTENSITY = 300
-const PERCENT_SCALE = 100
+const MAX_INTENSITY = 300;
+const PERCENT_SCALE = 100;
 
 interface Intensity {
-  actual: number
-  band: 'low' | 'moderate' | 'high'
-  updatedAt: string
+  actual: number;
+  band: 'low' | 'moderate' | 'high';
+  updatedAt: string;
 }
 
 interface Properties {
-  readonly intensity: Intensity
-  readonly error?: Error
-  readonly onRetry?: () => void
+  readonly intensity: Intensity;
+  readonly error?: Error;
+  readonly onRetry?: () => void;
 }
 
 function bandLabel(band: Intensity['band']): string {
-  if (band === 'low') return 'Low'
-  if (band === 'moderate') return 'Moderate'
-  return 'High'
+  if (band === 'low') return 'Low';
+  if (band === 'moderate') return 'Moderate';
+  return 'High';
 }
 
 const timeFormatter = new Intl.DateTimeFormat('en-GB', {
   hour: '2-digit',
   minute: '2-digit',
   timeZone: 'Europe/London',
-})
+});
 
 interface BadgeProperties {
-  readonly band: Intensity['band']
-  readonly colorToken: string
+  readonly band: Intensity['band'];
+  readonly colorToken: string;
 }
 
 function IntensityBadge({ band, colorToken }: BadgeProperties) {
-  const label = bandLabel(band)
+  const label = bandLabel(band);
   return (
     <div
-      role="img"
+      role='img'
       aria-label={`Intensity level: ${label}`}
-      className="inline-flex items-center gap-[5px] px-3 py-1 rounded-[var(--radius-pill)] text-white text-[var(--text-xs)] font-bold uppercase tracking-[0.06em]"
+      className='inline-flex items-center gap-[5px] px-3 py-1 rounded-[var(--radius-pill)] text-white text-xs font-bold uppercase tracking-[0.06em]'
       style={{ background: colorToken }}
     >
-      <span className="w-[5px] h-[5px] rounded-full bg-white/70" aria-hidden="true" />
+      <span
+        className='w-[5px] h-[5px] rounded-full bg-white/70'
+        aria-hidden='true'
+      />
       {label}
     </div>
-  )
+  );
 }
 
 interface ScaleBarProperties {
-  readonly actual: number
-  readonly colorToken: string
+  readonly actual: number;
+  readonly colorToken: string;
 }
 
 function ScaleBar({ actual, colorToken }: ScaleBarProperties) {
-  const markerPct = Math.min(PERCENT_SCALE, Math.max(0, (actual / MAX_INTENSITY) * PERCENT_SCALE))
+  const markerPct = Math.min(
+    PERCENT_SCALE,
+    Math.max(0, (actual / MAX_INTENSITY) * PERCENT_SCALE),
+  );
   return (
-    <div className="intensity-scale mt-[var(--space-md)]" aria-hidden="true">
+    <div className='intensity-scale mt-[var(--space-md)]' aria-hidden='true'>
       <div
-        className="intensity-scale-bar relative h-[6px] rounded-[3px] opacity-50 overflow-visible"
+        className='intensity-scale-bar relative h-[6px] rounded-[3px] opacity-50 overflow-visible'
         style={{
           background:
             'linear-gradient(to right, var(--color-intensity-low) 0%, var(--color-intensity-moderate) 50%, var(--color-intensity-high) 100%)',
         }}
-        role="presentation"
+        role='presentation'
       >
         <div
-          className="intensity-scale-marker absolute top-1/2 w-[14px] h-[14px] rounded-full border-[2.5px] border-[var(--color-surface)]"
+          className='intensity-scale-marker absolute top-1/2 w-[14px] h-[14px] rounded-full border-[2.5px] border-[var(--color-surface)]'
           style={{
             left: `${markerPct}%`,
             transform: 'translate(-50%, -50%)',
@@ -74,71 +80,90 @@ function ScaleBar({ actual, colorToken }: ScaleBarProperties) {
           }}
         />
       </div>
-      <div className="flex justify-between mt-[var(--space-xs)]">
-        <span className="text-[var(--text-xs)] text-[var(--color-text-disabled)] font-medium">Low · 0</span>
-        <span className="text-[var(--text-xs)] text-[var(--color-text-disabled)] font-medium">200</span>
-        <span className="text-[var(--text-xs)] text-[var(--color-text-disabled)] font-medium">High · 300+</span>
+      <div className='flex justify-between mt-[var(--space-xs)]'>
+        <span className='text-xs text-[var(--color-text-disabled)] font-medium'>
+          Low · 0
+        </span>
+        <span className='text-xs text-[var(--color-text-disabled)] font-medium'>
+          200
+        </span>
+        <span className='text-xs text-[var(--color-text-disabled)] font-medium'>
+          High · 300+
+        </span>
       </div>
     </div>
-  )
+  );
 }
 
 export function CarbonIntensityCard({ intensity, error, onRetry }: Properties) {
   if (error) {
     return (
-      <article data-testid="carbon-intensity-card" className="relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] shadow-[0_4px_32px_rgba(0,0,0,0.45)] bg-[var(--color-intensity-high-bg)] border border-[var(--color-intensity-high-border)] flex items-center justify-between gap-md">
-        <p role="alert" className="text-sm text-[var(--color-intensity-high)]">Carbon intensity unavailable</p>
+      <article
+        data-testid='carbon-intensity-card'
+        className='relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] shadow-[0_4px_32px_rgba(0,0,0,0.45)] bg-[var(--color-intensity-high-bg)] border border-[var(--color-intensity-high-border)] flex items-center justify-between gap-md'
+      >
+        <p role='alert' className='text-sm text-[var(--color-intensity-high)]'>
+          Carbon intensity unavailable
+        </p>
         {onRetry && (
-          <Primitive.button type="button" onClick={onRetry} aria-label="Retry loading carbon intensity" className="text-xs font-semibold text-[var(--color-intensity-high)] border border-[var(--color-intensity-high-border)] rounded-button px-3 py-1 cursor-pointer">
+          <Primitive.button
+            type='button'
+            onClick={onRetry}
+            aria-label='Retry loading carbon intensity'
+            className='text-xs font-semibold text-[var(--color-intensity-high)] border border-[var(--color-intensity-high-border)] rounded-button px-3 py-1 cursor-pointer'
+          >
             Retry
           </Primitive.button>
         )}
       </article>
-    )
+    );
   }
-  const colorToken = `var(--color-intensity-${intensity.band})`
-  const bgToken = `var(--color-intensity-${intensity.band}-bg)`
-  const borderToken = `var(--color-intensity-${intensity.band}-border)`
-  const time = timeFormatter.format(new Date(intensity.updatedAt))
+  const colorToken = `var(--color-intensity-${intensity.band})`;
+  const bgToken = `var(--color-intensity-${intensity.band}-bg)`;
+  const borderToken = `var(--color-intensity-${intensity.band}-border)`;
+  const time = timeFormatter.format(new Date(intensity.updatedAt));
 
   return (
     <article
-      data-testid="carbon-intensity-card"
-      aria-labelledby="intensity-heading"
-      className="relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_4px_32px_rgba(0,0,0,0.45)]"
+      data-testid='carbon-intensity-card'
+      aria-labelledby='intensity-heading'
+      className='relative overflow-hidden rounded-[var(--radius-card)] p-[var(--space-lg)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_4px_32px_rgba(0,0,0,0.45)]'
       style={{ background: bgToken, border: `1px solid ${borderToken}` }}
     >
-      <div className="flex items-center justify-between mb-[var(--space-md)]">
+      <div className='flex items-center justify-between mb-[var(--space-md)]'>
         <span
-          id="intensity-heading"
-          className="text-[var(--text-sm)] font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.08em]"
+          id='intensity-heading'
+          className='text-sm font-semibold text-[var(--color-text-secondary)] uppercase tracking-[0.08em]'
         >
           Carbon Intensity
         </span>
         <IntensityBadge band={intensity.band} colorToken={colorToken} />
       </div>
-      <div className="flex items-baseline gap-[var(--space-sm)] mb-[var(--space-sm)]">
+      <div className='flex items-baseline gap-[var(--space-sm)] mb-[var(--space-sm)]'>
         <span
-          className="font-display text-hero font-extrabold leading-none tabular-nums tracking-[-0.04em]"
+          className='font-display text-hero font-extrabold leading-none tabular-nums tracking-[-0.04em]'
           aria-label={`${intensity.actual} grams CO2 per kilowatt-hour`}
           style={{ color: colorToken, fontFeatureSettings: "'tnum'" }}
         >
           {intensity.actual}
         </span>
-        <span className="text-base font-normal text-[var(--color-text-secondary)] pb-[6px]" aria-hidden="true">
+        <span
+          className='text-base font-normal text-[var(--color-text-secondary)] pb-[6px]'
+          aria-hidden='true'
+        >
           gCO₂/kWh
         </span>
       </div>
       <ScaleBar actual={intensity.actual} colorToken={colorToken} />
-      <span className="sr-only">
+      <span className='sr-only'>
         Carbon intensity: {intensity.actual} gCO₂/kWh, {intensity.band} level
       </span>
       <p
-        className="intensity-timestamp mt-[var(--space-md)] text-[var(--text-xs)] text-[var(--color-text-disabled)]"
+        className='intensity-timestamp mt-[var(--space-md)] text-xs text-[var(--color-text-disabled)]'
         aria-label={`Data updated at ${time}`}
       >
         Updated {time}
       </p>
     </article>
-  )
+  );
 }
