@@ -1,0 +1,9 @@
+#!/bin/sh
+MSG=$(cat "$1")
+
+if echo "$MSG" | grep -q "^\[claude\]"; then
+  npx lint-staged
+  pnpm lint
+  pnpm build
+  pnpm test
+fi

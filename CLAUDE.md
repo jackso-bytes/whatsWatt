@@ -1,4 +1,5 @@
 - In all interactions and commit messages be extremely concise. Sacrifice grammar for the sake of concision
+- Always prefix commit messages with `[claude]` (e.g. `[claude] feat(#36): add thing`)
 
 ## What is What's What
 
@@ -35,6 +36,7 @@ Goal: show real-time electricity signal per postcode:
 - zero ESLint errors required
 - never suppress via ignores or inline disables
 - fix root cause only
+- run `npx prettier --write <file>` after editing any file
 
 ## General
 
