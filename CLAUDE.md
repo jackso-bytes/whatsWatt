@@ -36,6 +36,7 @@ Goal: show real-time electricity signal per postcode:
 - zero ESLint errors required
 - never suppress via ignores or inline disables
 - fix root cause only
+- run `npx prettier --write <file>` after editing any file
 
 ## General
 
