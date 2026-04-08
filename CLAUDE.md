@@ -1,4 +1,5 @@
 - In all interactions and commit messages be extremely concise. Sacrifice grammar for the sake of concision
+- Always prefix commit messages with `[claude]` (e.g. `[claude] feat(#36): add thing`)
 
 ## What is What's What
 
